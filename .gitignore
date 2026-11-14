@@ -1,0 +1,11 @@
+# Upload copies made by scripts/export_site.py (rebuilt every time)
+_upload/
+
+# Python / OS / editor leftovers
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+desktop.ini
+# Local Claude Code settings (permissions of this PC)
+.claude/settings.local.json

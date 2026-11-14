@@ -1,0 +1,84 @@
+{
+  "_readme": "Business details, written exactly as on the Google Business profile. Change them ONLY here, then run: python scripts/build.py",
+
+  "name": "Καπαγερίδης Ιωάννης – Φανοποιείο · Βαφείο · PDR",
+  "shortName": "Καπαγερίδης",
+  "latinName": "Kapageridis Auto Body",
+  "owner": "Ιωάννης Καπαγερίδης",
+  "foundingYear": "2010",
+
+  "url": "https://kapageridis.gr",
+
+  "address": {
+    "street": "Στέλιου Καζαντζίδη 30",
+    "locality": "Πυλαία",
+    "postalCode": "555 35",
+    "city": "Θεσσαλονίκη",
+    "region": "Κεντρική Μακεδονία",
+    "country": "GR",
+    "full": "Στέλιου Καζαντζίδη 30, Πυλαία 555 35, Θεσσαλονίκη"
+  },
+
+  "phone": {
+    "display": "2310 471606",
+    "tel": "+302310471606"
+  },
+
+  "email": "kapageridis.gr@yahoo.com",
+  "viber": {
+    "display": "694 420 9870",
+    "tel": "+306944209870"
+  },
+
+  "hours": {
+    "weekdays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "opens": "09:00",
+    "closes": "18:00",
+    "lines": [
+      { "days": "Δευτέρα – Παρασκευή", "time": "09:00 – 18:00" },
+      { "days": "Σάββατο – Κυριακή", "time": "Κλειστά" }
+    ]
+  },
+
+  "geo": { "lat": 40.5816697, "lng": 22.9821683 },
+
+  "maps": {
+    "placeId": "ChIJN7DnUWs_qBQRX11DZ8FZMsk",
+    "url": "https://www.google.com/maps/place/?q=place_id:ChIJN7DnUWs_qBQRX11DZ8FZMsk"
+  },
+
+  "reviews": {
+    "_readme": "Google reviews on the home page. apiKey: a Google Maps Platform browser key with 'Maps JavaScript API' + 'Places API (New)' enabled, restricted to https://kapageridis.gr/* (and http://localhost:8080/* for testing). Google returns at most 5 reviews. minRating: show only reviews with at least this many stars (1 = all).",
+    "apiKey": "",
+    "minRating": 1
+  },
+
+  "estimateForm": {
+    "_readme": "Free damage estimate on /dorean-ektimisi/ (the «Δωρεάν εκτίμηση» / «Ζητήστε εκτίμηση» buttons lead there). endpoint = the Web app link of the Google Apps Script in the estimates Google Sheet (scripts/estimate-apps-script.gs): when set, the page shows the site's OWN form, which saves photos to Google Drive and adds a row to the Sheet, same columns as before, so Make needs no change. tallyId = old Tally form, used only while endpoint is empty. Then run: python scripts/build.py",
+    "endpoint": "https://script.google.com/macros/s/AKfycbzCUA6HHZe1VqirIKRKqZRvZjh50xGYjGEJGI-H6o4VTsJ88UXmjMAp59bqcCOBUZlwIQ/exec",
+    "tallyId": "pey0p1"
+  },
+
+  "analytics": {
+    "_readme": "Google Analytics 4 'Measurement ID' (looks like G-XXXXXXXXXX). Empty = no statistics, no cookie banner. When set, every page shows a banner and GA4 loads ONLY after the visitor presses «Αποδοχή». Then run: python scripts/build.py",
+    "ga4Id": ""
+  },
+
+  "areaServed": ["Πυλαία", "Πανόραμα", "Χαριλάου", "Καλαμαριά", "Θέρμη", "Χορτιάτης", "Θεσσαλονίκη"],
+  "priceRange": "€€",
+
+  "instagram": "https://www.instagram.com/fanovafeio_kapageridis/",
+
+  "images": {
+    "logo": "/images/brand/logo.png",
+    "og": "/images/og/kapageridis-og.jpg",
+    "ogWidth": 1200,
+    "ogHeight": 630,
+    "ogAlt": "Λογότυπο Kapageridis Auto Body – Φανοποιείο, βαφείο και PDR στην Πυλαία Θεσσαλονίκης"
+  },
+
+  "legal": {
+    "vat": "[ΑΦΜ]",
+    "gemi": "[ΓΕΜΗ]"
+  }
+}

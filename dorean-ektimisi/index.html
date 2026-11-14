@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="el">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Δωρεάν Εκτίμηση Ζημιάς με Φωτογραφία | Καπαγερίδης</title>
+  <meta name="description" content="Στείλτε φωτογραφίες της ζημιάς του αυτοκινήτου σας και πάρτε δωρεάν εκτίμηση από το φανοποιείο Καπαγερίδη στην Πυλαία. Απαντάμε σε Viber ή τηλέφωνο.">
+
+  <!-- Free damage estimate. The steps, the form (Tally) and the phone/Viber line between the
+       biz:estimate markers are written by scripts/build.py from data/business.json
+       (estimateForm.tallyId). js/site.js loads the form. -->
+  <!-- biz:head -->
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://kapageridis.gr/dorean-ektimisi/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="el_GR">
+  <meta property="og:site_name" content="Καπαγερίδης Ιωάννης – Φανοποιείο · Βαφείο · PDR">
+  <meta property="og:title" content="Δωρεάν Εκτίμηση Ζημιάς με Φωτογραφία | Καπαγερίδης">
+  <meta property="og:description" content="Στείλτε φωτογραφίες της ζημιάς του αυτοκινήτου σας και πάρτε δωρεάν εκτίμηση από το φανοποιείο Καπαγερίδη στην Πυλαία. Απαντάμε σε Viber ή τηλέφωνο.">
+  <meta property="og:url" content="https://kapageridis.gr/dorean-ektimisi/">
+  <meta property="og:image" content="https://kapageridis.gr/images/og/kapageridis-og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Λογότυπο Kapageridis Auto Body – Φανοποιείο, βαφείο και PDR στην Πυλαία Θεσσαλονίκης">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/images/brand/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/images/brand/apple-touch-icon.png">
+  <meta name="theme-color" content="#0e0c0b">
+  <!-- /biz:head -->
+
+  <link rel="preload" href="/design-system/fonts/manrope-greek.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="/design-system/fonts.css">
+  <link rel="stylesheet" href="/design-system/tokens.css">
+  <link rel="stylesheet" href="/design-system/components/bundle.css">
+  <link rel="stylesheet" href="/css/site.css">
+  <script src="/js/site.js" defer></script>
+  <script src="/js/estimate.js" defer></script>
+</head>
+<body>
+
+  <!-- Cover (like the Tally form page): low photo of the workshop, menu on top -->
+  <section class="fb-photo fb-hero estimate-cover">
+    <picture class="section-bg"><img src="/images/estimate/cover-1400.webp" srcset="/images/estimate/cover-800.webp 800w, /images/estimate/cover-1400.webp 1400w, /images/estimate/cover-2000.webp 2000w" sizes="100vw" alt="" width="2000" height="661" fetchpriority="high" decoding="async"></picture>
+    <!-- biz:header -->
+    <header class="fb-header">
+      <nav class="fb-nav" id="main-nav" aria-label="Κεντρικό μενού">
+        <a href="/">Αρχική</a>
+        <a href="/#sxetika">Σχετικά</a>
+        <a href="/#ypiresies">Υπηρεσίες</a>
+        <a href="/#prin-meta">Πριν &amp; Μετά</a>
+        <a href="#epikoinonia">Επικοινωνία</a>
+      </nav>
+      <a class="fb-logo site-logo" href="/">
+        <img src="/images/brand/logo-400.webp" srcset="/images/brand/logo-400.webp 400w, /images/brand/logo-800.webp 800w" sizes="170px" alt="Καπαγερίδης Ιωάννης – Φανοποιείο · Βαφείο · PDR" width="400" height="195">
+      </a>
+      <div class="fb-social">
+        <a href="https://www.instagram.com/fanovafeio_kapageridis/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        <a href="tel:+302310471606" aria-label="Τηλέφωνο 2310 471606"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></a>
+      </div>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Μενού">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </header>
+    <!-- /biz:header -->
+  </section>
+
+  <main class="estimate-main">
+    <div class="container">
+      <div class="estimate-sheet">
+        <span class="estimate-logo"><img src="/images/brand/logo-400.webp" alt="" width="400" height="195"></span>
+        <h1 class="estimate-title">Δωρεάν εκτίμηση ζημιάς με φωτογραφία</h1>
+        <p class="estimate-lead">Στείλτε μας φωτογραφίες της ζημιάς και λίγα στοιχεία. Θα τις δούμε και θα σας απαντήσουμε στο Viber ή στο τηλέφωνο.</p>
+        <!-- biz:estimate -->
+        <ol class="estimate-steps">
+          <li>Αυτοκίνητο και τι έπαθε</li>
+          <li>2–3 φωτογραφίες της ζημιάς</li>
+          <li>Σας απαντάμε σε Viber ή τηλέφωνο</li>
+        </ol>
+        <form class="ef" id="forma" novalidate data-estimate-form data-endpoint="https://script.google.com/macros/s/AKfycbzCUA6HHZe1VqirIKRKqZRvZjh50xGYjGEJGI-H6o4VTsJ88UXmjMAp59bqcCOBUZlwIQ/exec" data-phone="2310 471606">
+          <div class="ef-field">
+            <label class="ef-label" for="ef-car">Αυτοκίνητο (μάρκα, μοντέλο, χρονιά) <span class="ef-req">*</span></label>
+            <input class="ef-input" id="ef-car" name="car" type="text" maxlength="200" placeholder="π.χ. Toyota Yaris 2018" required>
+          </div>
+          <div class="ef-field">
+            <label class="ef-label" for="ef-damage">Τι έπαθε το αυτοκίνητο; <span class="ef-req">*</span></label>
+            <textarea class="ef-input ef-textarea" id="ef-damage" name="damage" rows="4" maxlength="3000" placeholder="π.χ. Με χτύπησαν στο πάρκινγκ, βαθούλωμα στην πίσω πόρτα" required></textarea>
+          </div>
+          <fieldset class="ef-field" data-group="insurance">
+            <legend class="ef-label">Θα πάει μέσω ασφαλιστικής; <span class="ef-req">*</span></legend>
+            <div class="ef-choices">
+              <label class="ef-choice"><input type="radio" name="insurance" value="Ναι"><span>Ναι</span></label>
+              <label class="ef-choice"><input type="radio" name="insurance" value="Όχι, ιδιωτικά"><span>Όχι, ιδιωτικά</span></label>
+              <label class="ef-choice"><input type="radio" name="insurance" value="Δεν ξέρω ακόμα"><span>Δεν ξέρω ακόμα</span></label>
+            </div>
+          </fieldset>
+          <div class="ef-field" data-insurer hidden>
+            <label class="ef-label" for="ef-insurer">Ποια ασφαλιστική;</label>
+            <input class="ef-input" id="ef-insurer" name="insurer" type="text" maxlength="200">
+          </div>
+          <div class="ef-field" data-group="photos">
+            <span class="ef-label" id="ef-photos-label">Φωτογραφίες της ζημιάς <span class="ef-req">*</span></span>
+            <p class="ef-hint" id="ef-photos-hint">1 φωτογραφία από μακριά, να φαίνεται όλο το αυτοκίνητο, και 1–2 από κοντά στη ζημιά, με φως ημέρας. Έως 6.</p>
+            <input class="ef-file" id="ef-photos" type="file" accept="image/*" multiple aria-labelledby="ef-photos-label" aria-describedby="ef-photos-hint">
+            <label class="ef-drop" for="ef-photos"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 1 2-2h2l2-2h6l2 2h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.5"/></svg><span data-drop-text>Πατήστε για να προσθέσετε φωτογραφίες</span></label>
+            <ul class="ef-thumbs" data-thumbs></ul>
+          </div>
+          <div class="ef-field">
+            <label class="ef-label" for="ef-name">Ονοματεπώνυμο <span class="ef-req">*</span></label>
+            <input class="ef-input" id="ef-name" name="name" type="text" autocomplete="name" maxlength="200" required>
+          </div>
+          <div class="ef-field">
+            <label class="ef-label" for="ef-phone">Κινητό (για να σας απαντήσουμε σε Viber ή τηλέφωνο) <span class="ef-req">*</span></label>
+            <input class="ef-input" id="ef-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="69xx xxx xxx" required>
+          </div>
+          <div class="ef-field" data-group="consent">
+            <label class="ef-check"><input type="checkbox" name="consent" required><span>Συμφωνώ να χρησιμοποιηθούν τα στοιχεία μου μόνο για την εκτίμηση (<a href="/politiki-aporritou/">πολιτική απορρήτου</a>).</span></label>
+          </div>
+          <div class="ef-hp" aria-hidden="true"><label>Αφήστε το κενό <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <p class="ef-error" role="alert" data-error hidden></p>
+          <button class="fb-btn fb-btn-primary ef-submit" type="submit">Αποστολή</button>
+          <noscript><p class="ef-error">Η φόρμα χρειάζεται JavaScript. Καλέστε μας στο 2310 471606.</p></noscript>
+        </form>
+        <div class="ef-done" data-done hidden tabindex="-1">
+          <h2 class="ef-done-title">Ευχαριστούμε! Λάβαμε το αίτημά σας.</h2>
+          <p>Θα δούμε τις φωτογραφίες και θα σας απαντήσουμε στο Viber ή στο τηλέφωνο.</p>
+        </div>
+        <p class="estimate-note">Προτιμάτε να μιλήσετε; Καλέστε μας στο <a href="tel:+302310471606">2310 471606</a> ή στείλτε μήνυμα στο <a href="viber://chat?number=%2B306944209870">Viber 694 420 9870</a>.</p>
+        <!-- /biz:estimate -->
+      </div>
+    </div>
+  </main>
+
+  <!-- biz:footer -->
+  <footer class="fb-footer" id="epikoinonia">
+    <div class="footer-col">
+      <h2 class="visually-hidden">Επικοινωνία</h2>
+      <ul class="footer-contact">
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <a href="mailto:kapageridis.gr@yahoo.com">kapageridis.gr@yahoo.com</a>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <a href="tel:+302310471606">2310 471606</a>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          <address class="footer-address"><a href="https://www.google.com/maps/place/?q=place_id:ChIJN7DnUWs_qBQRX11DZ8FZMsk" target="_blank" rel="noopener">Στέλιου Καζαντζίδη 30, Πυλαία 555 35, Θεσσαλονίκη</a></address>
+        </li>
+      </ul>
+      <div class="fb-social">
+        <a href="https://www.instagram.com/fanovafeio_kapageridis/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h2 class="footer-title">ΩΡΑΡΙΟ</h2>
+      <dl class="footer-hours">
+        <dt>ΔΕΥΤΕΡΑ – ΠΑΡΑΣΚΕΥΗ:</dt><dd>09:00 – 18:00</dd>
+        <dt>ΣΑΒΒΑΤΟ – ΚΥΡΙΑΚΗ:</dt><dd>ΚΛΕΙΣΤΑ</dd>
+      </dl>
+    </div>
+    <nav class="footer-col" aria-label="Υπηρεσίες">
+      <h2 class="footer-title">ΥΠΗΡΕΣΙΕΣ</h2>
+      <ul class="footer-menu">
+        <li><a href="/fanopoiia/">ΦΑΝΟΠΟΙΙΑ</a></li>
+        <li><a href="/vafi-aftokinitou/">ΒΑΦΗ ΑΥΤΟΚΙΝΗΤΟΥ</a></li>
+        <li><a href="/pdr/">ΒΑΘΟΥΛΩΜΑΤΑ PDR</a></li>
+      </ul>
+    </nav>
+    <nav class="footer-col" aria-label="Μενού στο κάτω μέρος">
+      <h2 class="footer-title">ΜΕΝΟΥ</h2>
+      <ul class="footer-menu">
+        <li><a href="/">ΑΡΧΙΚΗ</a></li>
+        <li><a href="/#sxetika">ΣΧΕΤΙΚΑ</a></li>
+        <li><a href="/#ypiresies">ΥΠΗΡΕΣΙΕΣ</a></li>
+        <li><a href="/#prin-meta">ΠΡΙΝ &amp; ΜΕΤΑ</a></li>
+        <li><a href="#epikoinonia">ΕΠΙΚΟΙΝΩΝΙΑ</a></li>
+      </ul>
+    </nav>
+    <div class="footer-col footer-col-logo">
+      <a class="footer-logo" href="/">
+        <img src="/images/brand/logo-800.webp" srcset="/images/brand/logo-400.webp 400w, /images/brand/logo-800.webp 800w" sizes="240px" alt="Καπαγερίδης Ιωάννης – Φανοποιείο · Βαφείο · PDR" width="800" height="390" loading="lazy" decoding="async">
+      </a>
+    </div>
+    <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Καπαγερίδης Ιωάννης – Φανοποιείο · Βαφείο · PDR. All rights reserved. Proudly serving Thessaloniki with precision and integrity.</p>
+    <p class="footer-legal"><a href="/politiki-aporritou/">Πολιτική απορρήτου</a></p>
+  </div>
+  </footer>
+  <!-- /biz:footer -->
+
+  <!-- biz:chat -->
+  <div class="chat-float fb-chat">
+    <div class="chat-menu" id="chat-menu" hidden>
+      <a class="chat-option" href="tel:+302310471606">
+        <span class="chat-option-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
+        <span>Τηλέφωνο<small>2310 471606</small></span>
+      </a>
+      <a class="chat-option" href="mailto:kapageridis.gr@yahoo.com">
+        <span class="chat-option-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+        <span>Email<small>Στείλτε μας μήνυμα</small></span>
+      </a>
+    </div>
+    <button class="fb-chat-btn" type="button" aria-expanded="false" aria-controls="chat-menu" aria-label="Επικοινωνία: τηλέφωνο ή email">
+      <svg class="icon-chat" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01" stroke-width="3"/></svg>
+      <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <!-- /biz:chat -->
+</body>
+</html>

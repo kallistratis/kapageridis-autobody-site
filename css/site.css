@@ -1,0 +1,537 @@
+/* Site layout on top of the design system.
+   Colors, spacing and radii come only from design-system/tokens.css.
+   Exceptions (not in the design system, needed for phones): the breakpoint
+   values and the smaller mobile font sizes in the media queries below. */
+
+*, *::before, *::after { box-sizing: border-box; }
+img { max-width: 100%; display: block; }
+
+.container { max-width: var(--container); margin: 0 auto; padding: 0 var(--space-60); }
+/* Space between topics: 80px above and below (160px between two sections; 100px on phones) */
+.section { padding: calc(var(--space-60) + var(--space-20)) 0; }
+/* Centred titles whose watermark word was removed (reviews, before & after):
+   drop the room the watermark needed above the title */
+.fb-watermark-wrap:not(:has(.fb-watermark)) { padding-top: 0; }
+.section-alt { background: var(--surface-alt); }
+
+/* Hidden visually, still read by screen readers and search engines */
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* Brand strip: logos scroll slowly to the left, forever.
+   The track holds the list twice; moving it by -50% lands exactly on the copy, so the loop has no jump.
+   Each list ends with the same space as the gap between logos, so the seam looks like any other gap. */
+.brands { padding: calc(var(--space-60) + var(--space-20)) 0; background: var(--surface); }
+.brands-viewport {
+  overflow: hidden;
+  /* soft fade at both edges (the mask only uses alpha, the colour itself is never shown) */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.brands-track { display: flex; width: max-content; animation: brands-scroll 90s linear infinite; }
+.brands-list { display: flex; align-items: center; gap: calc(var(--space-60) * 2); margin: 0; padding: 0 calc(var(--space-60) * 2) 0 0; list-style: none; }
+.brands-list img { display: block; height: 100px; width: auto; max-width: 200px; object-fit: contain; }
+@keyframes brands-scroll { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .brands-track { animation: none; }
+  .brands-viewport { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+}
+
+/* Emergency section: darkened photo, yellow bar left of the text block.
+   Photo sits above the black background but below the 50% overlay and the text. */
+.emergency { isolation: isolate; background: var(--ink-black); padding: var(--section-top) calc(var(--space-60) * 2) var(--section-bottom); }
+.fb-photo > .section-bg { position: absolute; inset: 0; z-index: -1; display: block; }
+.section-bg img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.emergency-block { max-width: 706px; border-left: var(--space-20) solid var(--brand); padding-left: var(--space-20); }
+.emergency-block .fb-emergency-sub { margin: var(--space-20) 0 var(--space-30); }
+.emergency-steps { margin: 0; padding: var(--space-20) 0 0; list-style: none; border-top: 2.67px solid var(--on-photo); font-size: 19px; line-height: 28.9px; color: var(--on-photo); }
+.emergency-steps b { font-weight: 700; }
+
+/* Gallery: two rows of two photos inside the container, asymmetric.
+   Row 1: small square (≈40%) top-aligned + large square (≈52%) → empty space under the small one.
+   Row 2: mirrored, the small one aligned to the bottom. Corners radius-md, no shadow, no border.
+   Under 768px: one photo under the other, full width, gap space-20. */
+.gallery-row { display: grid; grid-template-columns: 40fr 52fr; column-gap: var(--space-60); align-items: start; }
+.gallery-row + .gallery-row { margin-top: var(--space-60); }
+.gallery-row-reverse { grid-template-columns: 52fr 40fr; }
+.gallery-row-reverse .gallery-small { align-self: end; }
+.gallery-item { margin: 0; overflow: hidden; border-radius: var(--radius-md); background: var(--surface-muted); aspect-ratio: 1 / 1; }
+.gallery-item img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+@media (max-width: 767px) {
+  .gallery-row, .gallery-row-reverse { grid-template-columns: 1fr; row-gap: var(--space-20); }
+  .gallery-row + .gallery-row { margin-top: var(--space-20); }
+  .gallery-item { aspect-ratio: 4 / 3; }
+}
+
+/* About: eyebrow + title-xl, text in two columns (design system), motto underneath */
+.gallery + .about { padding-top: 0; }
+.about-text { margin-top: var(--space-40); column-count: 2; column-gap: var(--space-60); }
+.about-text p { margin: 0 0 var(--space-20); break-inside: avoid; }
+.about-motto { margin: var(--space-20) 0 0; padding-top: var(--space-20); border-top: 2.67px solid var(--ink-black); font-size: 24px; line-height: 34px; font-weight: 700; color: var(--ink); }
+@media (max-width: 767px) {
+  .about-text { column-count: 1; }
+  .about-motto { font-size: 19px; line-height: 28.9px; }
+}
+
+/* Google reviews: watermark title, grey consent box until loaded, then score + cards.
+   Stars in ink-black (yellow stays for actions, per DESIGN.md). */
+.reviews-widget { margin-top: var(--space-40); }
+.reviews-consent { display: flex; flex-direction: column; align-items: center; gap: var(--space-15); padding: var(--space-40) var(--space-20); text-align: center; background: var(--surface-muted); border-radius: var(--radius-md); }
+.reviews-consent[hidden], html:not(.js) .reviews-consent { display: none; }
+.reviews-consent-text { margin: 0; color: var(--ink); }
+.reviews-summary { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--space-15); margin-bottom: var(--space-30); }
+.reviews-summary[hidden], .reviews-grid[hidden], .reviews-note[hidden] { display: none; }
+.reviews-score { font-size: 57px; line-height: 57px; font-weight: 800; color: var(--ink-black); }
+.reviews-count { color: var(--text-muted); }
+.review-stars { color: var(--ink-black); font-size: 20px; line-height: 20px; letter-spacing: 2px; }
+.reviews-summary .review-stars { font-size: 28px; line-height: 28px; }
+.reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-30); }
+.review-card { display: flex; flex-direction: column; gap: var(--space-15); padding: var(--space-30); background: var(--surface-alt); border-radius: var(--radius-md); }
+.review-text { margin: 0; flex: 1; color: var(--text); display: -webkit-box; -webkit-line-clamp: 8; -webkit-box-orient: vertical; overflow: hidden; }
+.review-author { display: flex; align-items: center; gap: var(--space-10); margin: 0; font-weight: 600; color: var(--ink); }
+.review-author img { width: 40px; height: 40px; border-radius: var(--radius-full); object-fit: cover; }
+.review-author a { color: inherit; text-decoration: none; }
+.review-author a:hover { text-decoration: underline; }
+.review-time { margin: 0; font-size: 14px; line-height: 21px; color: var(--text-muted); }
+.reviews-note { margin: var(--space-30) 0 0; text-align: center; font-size: 14px; line-height: 21px; color: var(--text-muted); }
+.reviews-status { margin: var(--space-15) 0 0; text-align: center; color: var(--text-muted); }
+.reviews-status:empty { display: none; }
+.reviews-links { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-15) var(--space-40); margin-top: var(--space-30); }
+.reviews-link { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.reviews-link:hover { color: var(--ink-black); }
+
+/* Reviews carousel (hand-entered real reviews): score on top, a row of cards that
+   scrolls slowly (js/reviews.js), stops on hover/focus/touch. Without JS: a row you scroll sideways. */
+.reviews-static { margin-top: var(--space-40); }
+.reviews-summary-static { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; gap: var(--space-10) var(--space-15); margin: 0 0 var(--space-30); }
+.reviews-outof { font-size: 24px; line-height: 24px; font-weight: 600; color: var(--text-muted); }
+.reviews-summary-static .review-stars { font-size: 28px; line-height: 28px; }
+.reviews-summary-static .reviews-count { color: var(--text-muted); text-decoration: underline; text-underline-offset: 4px; }
+.reviews-summary-static .reviews-count:hover { color: var(--ink); }
+.reviews-viewport { overflow-x: auto; scroll-behavior: auto; padding-bottom: var(--space-10); }
+.reviews-viewport:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; border-radius: var(--radius-md); }
+.js .reviews-viewport {
+  scrollbar-width: none;
+  /* soft fade at both edges (alpha mask only, the colour is never shown) */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+          mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+.js .reviews-viewport::-webkit-scrollbar { display: none; }
+.reviews-track { display: flex; align-items: stretch; gap: var(--space-30); width: max-content; margin: 0; padding: 0; list-style: none; }
+.reviews-track .review-card { flex: none; width: 340px; }
+.reviews-track .review-text { display: block; overflow: visible; -webkit-line-clamp: unset; }
+.review-head { display: flex; align-items: center; gap: var(--space-15); }
+.review-head .review-author, .review-head .review-time { margin: 0; }
+.review-avatar { flex: none; width: var(--social-icon); height: var(--social-icon); border-radius: var(--radius-full); background: var(--surface-slate); color: var(--on-dark); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 17px; }
+.review-more { font-size: 14px; line-height: 21px; font-weight: 600; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 767px) {
+  .reviews-track { gap: var(--space-20); }
+  .reviews-track .review-card { width: 280px; }
+  .reviews-score { font-size: 44px; line-height: 44px; }
+}
+
+/* Menu: on a service page "Υπηρεσίες" is marked like the current page */
+.fb-nav a[aria-current="true"] { text-decoration: underline; text-underline-offset: 8px; text-decoration-thickness: 2px; }
+
+/* ---------- Services (home section + "Άλλες υπηρεσίες" on service pages) ----------
+   ServiceCard from the design system; the whole card is one link. Equal heights,
+   «Μάθετε περισσότερα →» always at the bottom. Photo zooms a little on hover. */
+.services-head { text-align: center; }
+.services-head .fb-heading-xl { margin-top: var(--space-10); }
+.services-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-30); margin-top: var(--space-40); }
+.services-grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: var(--content); margin-inline: auto; }
+.service-card { width: auto; display: flex; flex-direction: column; color: inherit; text-decoration: none; border-radius: var(--radius-md); }
+.service-card:focus-visible { outline: 2px solid var(--brand); outline-offset: 4px; }
+.service-thumb { position: relative; overflow: hidden; aspect-ratio: 3 / 2; border-radius: var(--radius-md); background: var(--surface-muted); }
+.service-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+.service-thumb-label { padding: var(--space-20); font-size: 17px; font-weight: 600; color: var(--text-muted); text-align: center; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .service-card:hover .service-thumb img { transform: scale(1.03); }
+}
+.service-card .fb-card-title { margin: var(--space-20) 0 var(--space-10); }
+.service-card .fb-card-text { margin: 0 0 var(--space-20); }
+.service-more { margin-top: auto; font-size: 15px; line-height: 21px; font-weight: 700; color: var(--ink); }
+.service-card:hover .service-more,
+.service-card:focus-visible .service-more { text-decoration: underline; text-underline-offset: 4px; }
+/* dark variant (PDR): design system fb-card-dark */
+.service-card.service-card--dark .fb-card-title { margin-top: var(--space-20); }
+.service-card--dark .service-more { color: var(--on-dark); }
+
+/* «Επίσης» strip under the cards */
+.services-extras { margin-top: var(--space-60); padding: var(--space-30); background: var(--surface-alt); border-radius: var(--radius-md); }
+.services-extras ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-30); margin: var(--space-15) 0 0; padding: 0; list-style: none; }
+.services-extras strong { color: var(--ink); }
+
+/* Home page service band (like the reference): three tall photo panels side by side
+   across the whole screen width, thin light lines between them, white title + text
+   at the bottom over a dark fade. Whole panel = one link. Photo zooms a little on
+   hover (not with reduced motion). Tablet and phone: panels stacked, full width. */
+/* Rows shared by the three panels (subgrid): photo space | title | text | link,
+   so titles, texts and links line up across the panels like in the reference. */
+.services-band { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: minmax(22vw, 1fr) auto auto auto; margin-top: var(--space-40); background: var(--surface-night); }
+.service-panel { position: relative; isolation: isolate; display: grid; grid-row: span 4; grid-template-rows: subgrid; overflow: hidden; color: var(--on-photo); text-decoration: none; }
+.service-panel-body { display: contents; }
+.service-panel-body > * { padding-inline: var(--space-40); }
+.service-panel-title { grid-row: 2; align-self: end; }
+.service-panel-text { grid-row: 3; }
+.service-panel .service-more { grid-row: 4; padding-bottom: var(--space-40); }
+.service-panel-img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: var(--focus, 50% 50%); transition: transform .4s ease; }
+.service-panel::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(to top,
+    color-mix(in srgb, var(--surface-night) 92%, transparent) 0%,
+    color-mix(in srgb, var(--surface-night) 60%, transparent) 40%,
+    color-mix(in srgb, var(--surface-night) 15%, transparent) 75%);
+}
+.service-panel + .service-panel::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 1px; background: color-mix(in srgb, var(--on-photo) 30%, transparent); }
+.service-panel-title { margin: 0 0 var(--space-15); font-size: 32px; line-height: 38px; font-weight: 600; color: var(--on-photo); }
+.service-panel-text { margin: 0 0 var(--space-20); font-size: 17px; line-height: 28.9px; color: var(--on-dark-muted); }
+.service-panel .service-more { color: var(--on-photo); }
+.service-panel:hover .service-more,
+.service-panel:focus-visible .service-more { text-decoration: underline; text-underline-offset: 4px; }
+.service-panel:focus-visible { outline: 2px solid var(--brand); outline-offset: -4px; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .service-panel:hover .service-panel-img { transform: scale(1.03); }
+}
+@media (max-width: 1024px) {
+  .services-band { grid-template-columns: 1fr; grid-template-rows: none; }
+  .service-panel { grid-row: auto; grid-template-rows: minmax(200px, 1fr) auto auto auto; min-height: 420px; }
+  .service-panel + .service-panel::after { right: 0; bottom: auto; width: auto; height: 1px; }
+  .service-panel-body > * { max-width: var(--content); }
+}
+@media (max-width: 760px) {
+  .service-panel { min-height: 400px; }
+  .service-panel-body > * { padding-inline: var(--space-20); }
+  .service-panel .service-more { padding-bottom: var(--space-30); }
+  .service-panel-title { font-size: 26px; line-height: 32px; }
+}
+
+/* ---------- Service page (templates/service.html) ---------- */
+.breadcrumb { padding: var(--space-15) 0; border-bottom: 1px solid var(--surface-muted); font-size: 14px; line-height: 21px; }
+.breadcrumb ol { display: flex; flex-wrap: wrap; gap: var(--space-10); margin: 0; padding: 0; list-style: none; color: var(--text-muted); }
+.breadcrumb li + li::before { content: "›"; margin-right: var(--space-10); color: var(--text-muted); }
+.breadcrumb a { color: var(--ink); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.service-article { padding: var(--space-60) 0 calc(var(--space-60) + var(--space-20)); }
+.service-content { max-width: var(--content); }
+.service-lead { margin: 0 0 var(--space-20); font-size: 19px; line-height: 28.9px; color: var(--ink); }
+.service-content h2 { margin: var(--space-40) 0 var(--space-20); font-size: 32px; line-height: 38px; font-weight: 700; color: var(--ink); }
+.service-content h3 { margin: var(--space-30) 0 var(--space-10); font-size: 19px; line-height: 28.9px; font-weight: 700; color: var(--ink); }
+.service-content p { margin: 0 0 var(--space-15); }
+.service-content strong { color: var(--ink); }
+.service-list { margin: 0 0 var(--space-20); padding-left: var(--space-20); }
+.service-list li + li { margin-top: var(--space-10); }
+.service-list li::marker { color: var(--ink); }
+/* numbered steps: number in a dark circle */
+.service-steps { display: grid; gap: var(--space-15); margin: 0 0 var(--space-20); padding: 0; list-style: none; counter-reset: step; }
+.service-steps li { position: relative; min-height: var(--social-icon); padding: var(--space-10) 0 0 calc(var(--social-icon) + var(--space-15)); counter-increment: step; }
+.service-steps li::before { content: counter(step); position: absolute; left: 0; top: 0; width: var(--social-icon); height: var(--social-icon); border-radius: var(--radius-full); background: var(--surface-slate); color: var(--on-dark); display: flex; align-items: center; justify-content: center; font-weight: 700; }
+/* customer review */
+.service-review { margin: 0; padding: var(--space-30); background: var(--surface-alt); border-radius: var(--radius-md); }
+.service-review blockquote { margin: var(--space-15) 0; font-size: 19px; line-height: 28.9px; color: var(--ink); }
+.service-review blockquote p { margin: 0; }
+.service-review figcaption { font-size: 14px; line-height: 21px; color: var(--text-muted); }
+.service-review figcaption a { color: var(--ink); }
+/* call box */
+.service-cta { padding: 0 0 calc(var(--space-60) + var(--space-20)); }
+.service-cta-box { max-width: var(--content); padding: var(--space-40); background: var(--surface-slate); border-radius: var(--radius-md); color: var(--on-dark); }
+.service-cta-text { margin: 0 0 var(--space-20); font-size: 24px; line-height: 34px; font-weight: 600; color: var(--on-dark); }
+.service-cta-pending { align-self: center; font-size: 15px; color: var(--on-dark-muted); }
+.other-services { background: var(--surface-alt); }
+.other-services .fb-heading-xl { text-align: center; }
+
+@media (max-width: 1024px) {
+  .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  .services-grid, .services-grid--two { grid-template-columns: 1fr; gap: var(--space-30); }
+  .services-extras ul { grid-template-columns: 1fr; gap: var(--space-15); }
+  .service-article { padding: var(--space-40) 0 calc(var(--space-40) + var(--space-10)); }
+  .service-content h2 { margin-top: var(--space-30); font-size: 26px; line-height: 32px; }
+  .service-cta { padding-bottom: calc(var(--space-40) + var(--space-10)); }
+  .service-cta-box { padding: var(--space-30) var(--space-20); }
+  .service-cta-text { font-size: 19px; line-height: 28.9px; }
+}
+
+/* Map section: full width, no margins or corners, 650px tall (400px on phones).
+   Google map shown directly (lazy-loaded); grey background until it appears.
+   Info card bottom-left over the map (below the map on phones). The card gets
+   shadow-float so it stays readable over light map tiles (see DESIGN.md «Χάρτης»). */
+.map-section { position: relative; background: var(--surface-muted); }
+.map-frame { position: relative; height: 650px; background: var(--surface-muted); }
+.map-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+.map-card {
+  position: absolute; left: var(--space-60); bottom: var(--space-60); z-index: 2;
+  width: 380px; max-width: calc(100% - var(--space-60) * 2);
+  padding: var(--space-30); background: var(--surface); border-radius: var(--radius-md); box-shadow: var(--shadow-float);
+}
+.map-card-title { margin: 0 0 var(--space-20); font-size: 24px; line-height: 28.8px; font-weight: 600; color: var(--ink); }
+.map-info { margin: 0 0 var(--space-20); font-size: 17px; line-height: 28.9px; color: var(--text); }
+.map-info dt { font-size: 14px; line-height: 21px; font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; color: var(--text-muted); }
+.map-info dd { margin: 0 0 var(--space-10); color: var(--ink); }
+.map-info a { color: var(--ink); font-weight: 600; text-decoration: none; }
+.map-info a:hover { text-decoration: underline; }
+
+/* Parallax (js/parallax.js). Only while the script runs (<html class="parallax-on">):
+   the background layer becomes taller than its section by --parallax-extra above
+   and below, so it can move without showing an edge. Without the script nothing
+   here applies. The overlay (.fb-photo::before) stays on top: the layer is z-index -1. */
+.parallax-on .fb-photo > .parallax-media {
+  top: calc(var(--parallax-extra, 0px) * -1);
+  bottom: auto;
+  height: calc(100% + var(--parallax-extra, 0px) * 2);
+  will-change: transform;
+}
+
+/* Placeholder for content we don't have yet (photos, logo, texts) */
+.placeholder { border: 2px dashed var(--border-light); border-radius: var(--radius-md); padding: var(--space-40); text-align: center; color: var(--text-muted); }
+
+/* Hero: looping background video, black until it loads.
+   isolation + z-index:-1 put the video above the black background but
+   below the 50% overlay (.fb-photo::before) and the text. */
+.fb-hero { background: var(--ink-black); isolation: isolate; }
+.fb-photo > .hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; pointer-events: none; }
+/* Hero: let the grid shrink below the source's fixed 706px column */
+.fb-hero-body { grid-template-columns: minmax(0, 706px) minmax(0, 1fr); }
+/* Our hero paragraph is longer than the source's, so let it use its whole column */
+.fb-hero-lead { max-width: none; }
+.fb-btn { white-space: nowrap; }
+
+/* Footer, laid out like the reference: contact | hours | services | menu | logo, copyright below.
+   Headings are h2 (correct outline after the h1), styled like the design system's h5. */
+.fb-footer { grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr; align-items: start; row-gap: var(--space-60); padding: var(--space-60) var(--space-60) var(--space-40); }
+.fb-footer .footer-title { margin: 0 0 var(--space-20); font-size: 24px; line-height: 34px; font-weight: 600; color: var(--on-dark); }
+.fb-footer a { color: inherit; text-decoration: none; transition: color .2s ease; }
+.fb-footer a:hover { color: var(--brand); }
+.fb-footer a:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.footer-address { font-style: normal; }
+
+.footer-contact { font-size: 19px; line-height: 28.9px; color: var(--on-dark); }
+.footer-contact li { display: flex; align-items: center; justify-content: center; gap: var(--space-10); }
+.footer-contact li + li { margin-top: var(--space-10); }
+.footer-contact svg { flex: none; }
+
+.footer-hours { margin: 0; font-size: 17px; line-height: 28.22px; }
+.footer-hours dd { margin: 0; }
+
+/* Inner pages (e.g. 404): plain dark hero, no photo */
+.page-hero { min-height: 520px; }
+/* Service page hero (looping video): the usual 50% overlay, getting darker towards
+   the bottom where the title and button sit, so the moving picture never fights the text */
+.service-hero::before {
+  background: linear-gradient(to top,
+    color-mix(in srgb, var(--surface-night) 72%, transparent) 0%,
+    var(--overlay) 60%);
+}
+.page-hero-link { color: var(--on-photo); font-weight: 700; }
+
+/* Logo image (gold on transparent): only ever on dark backgrounds (hero, footer) */
+.site-logo { display: block; line-height: 0; }
+.site-logo img { display: block; height: 72px; width: auto; }
+.footer-logo { display: inline-block; line-height: 0; }
+.footer-logo img { display: block; width: 240px; max-width: 100%; height: auto; }
+
+.footer-copy { grid-column: 1 / -1; margin: 0; font-size: 15px; line-height: 24px; color: var(--text-meta); }
+/* Copyright + «Πολιτική απορρήτου · Ρυθμίσεις cookies» under it */
+.footer-bottom { grid-column: 1 / -1; }
+.footer-legal { margin: var(--space-10) 0 0; font-size: 15px; line-height: 24px; color: var(--text-meta); }
+.footer-link-btn { padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer; transition: color .2s ease; }
+.footer-link-btn:hover { color: var(--on-dark); }
+.footer-link-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+
+/* Cookie banner (statistics). Dark card bottom-left, above the chat button;
+   «Απόρριψη» and «Αποδοχή» look the same on purpose (refusing must be as easy). */
+.consent { position: fixed; left: var(--space-20); bottom: var(--space-20); z-index: 60; box-sizing: border-box; width: min(420px, calc(100% - 2 * var(--space-20))); padding: var(--space-20); background: var(--surface-slate); border: 1px solid var(--border-dark); border-radius: var(--radius-md); color: var(--on-dark-muted); }
+.consent[hidden] { display: none; }
+.consent-title { margin: 0 0 var(--space-10); font-size: 19px; line-height: 28.9px; font-weight: 700; color: var(--on-dark); }
+.consent-text { margin: 0 0 var(--space-15); font-size: 15px; line-height: 24px; }
+.consent-text a { color: var(--on-dark); text-underline-offset: 3px; }
+.consent-actions { display: flex; gap: var(--space-10); }
+.consent-actions .fb-btn { flex: 1; justify-content: center; cursor: pointer; font-family: inherit; }
+.consent .fb-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+
+/* Privacy page: same reading column as the service pages */
+.legal-hero { min-height: 420px; }
+
+/* Free estimate page (/dorean-ektimisi/), laid out like the Tally form page:
+   low workshop photo as a cover with the menu on top, round logo badge sitting on
+   the cover's edge, dark title on white, the three steps in one line, then the form. */
+.fb-hero.estimate-cover { min-height: clamp(300px, 27vw, 520px); } /* follows the screen width, so the whole car always shows under the menu and the title stays close to the top */
+.estimate-cover .section-bg img { object-position: 50% 30%; }
+.estimate-cover::before { background: linear-gradient(to bottom, var(--overlay) 0%, color-mix(in srgb, var(--surface-night) 15%, transparent) 70%); }
+.estimate-main { padding: 0 0 var(--space-60); }
+.estimate-sheet { position: relative; max-width: var(--content); margin: 0 auto; }
+.estimate-logo { display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 120px; height: 120px; margin-top: -60px; border: 4px solid var(--surface); border-radius: var(--radius-full); background: var(--surface-night); }
+.estimate-logo img { display: block; width: 88px; height: auto; }
+.estimate-title { margin: var(--space-20) 0 var(--space-15); font-size: 40px; line-height: 48px; font-weight: 700; color: var(--ink); }
+.estimate-lead { margin: 0 0 var(--space-30); font-size: 19px; line-height: 28.9px; color: var(--text); }
+.estimate-steps { display: flex; flex-wrap: wrap; gap: var(--space-15) var(--space-30); margin: 0 0 var(--space-30); padding: 0 0 var(--space-30); list-style: none; counter-reset: step; border-bottom: 1px solid var(--surface-muted); }
+.estimate-steps li { display: flex; align-items: center; gap: var(--space-10); counter-increment: step; font-size: 15px; line-height: 24px; font-weight: 600; color: var(--ink); }
+.estimate-steps li::before { content: counter(step); flex: none; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: var(--radius-full); background: var(--surface-slate); color: var(--on-dark); font-size: 14px; font-weight: 700; }
+.estimate-form { scroll-margin-top: var(--space-20); }
+.estimate-form iframe { display: block; width: 100%; border: 0; }
+.estimate-note { margin: var(--space-15) 0 0; font-size: 15px; line-height: 24px; color: var(--text-muted); }
+.estimate-sheet a { color: var(--ink); text-underline-offset: 3px; }
+
+/* The site's own estimate form (.ef): calm white form in the design-system type,
+   52px fields with radius-md, dark focus ring, yellow only on «Αποστολή».
+   Problems are marked in the accent colour (the system has no red). */
+.ef { display: grid; gap: var(--space-30); scroll-margin-top: var(--space-20); }
+.ef-field { margin: 0; padding: 0; border: 0; min-width: 0; }
+.ef-label { display: block; margin: 0 0 var(--space-10); padding: 0; font-size: 17px; line-height: 24px; font-weight: 700; color: var(--ink); }
+.ef-req { color: var(--accent); }
+.ef-hint { margin: calc(var(--space-10) * -0.5) 0 var(--space-10); font-size: 15px; line-height: 24px; color: var(--text-muted); }
+.ef-input { box-sizing: border-box; width: 100%; height: var(--button-h); padding: 0 var(--space-15); border: 1px solid var(--border-light); border-radius: var(--radius-md); background: var(--surface); font: inherit; font-size: 17px; color: var(--ink); transition: border-color .2s ease, box-shadow .2s ease; }
+.ef-textarea { height: auto; min-height: 120px; padding: var(--space-15); line-height: 26px; resize: vertical; }
+.ef-input::placeholder { color: var(--text-meta); }
+.ef-input:hover { border-color: var(--text-muted); }
+.ef-input:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
+.ef-input.is-invalid, .ef-input.is-invalid:focus { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+/* insurance answers as three buttons */
+.ef-choices { display: flex; flex-wrap: wrap; gap: var(--space-10); }
+.ef-choice { position: relative; display: inline-flex; }
+.ef-choice input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.ef-choice span { display: inline-flex; align-items: center; height: var(--button-h); padding: 0 var(--space-20); border: 1px solid var(--border-light); border-radius: var(--radius-md); background: var(--surface); font-size: 16px; font-weight: 600; color: var(--ink); transition: border-color .2s ease, background-color .2s ease; }
+.ef-choice:hover span { border-color: var(--text-muted); }
+.ef-choice input:checked + span { border-color: var(--ink); background: var(--ink); color: var(--on-dark); }
+.ef-choice input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 2px; }
+.ef-field.is-invalid .ef-choice span, .ef-field.is-invalid .ef-drop { border-color: var(--accent); }
+/* photos: big dashed area to tap, thumbnails below */
+.ef-file { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
+.ef-drop { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-10); padding: var(--space-30) var(--space-20); border: 2px dashed var(--border-light); border-radius: var(--radius-md); background: var(--surface-alt); font-size: 16px; font-weight: 600; color: var(--ink); text-align: center; cursor: pointer; transition: border-color .2s ease; }
+.ef-drop:hover { border-color: var(--text-muted); }
+.ef-file:focus-visible + .ef-drop { outline: 2px solid var(--brand); outline-offset: 2px; }
+.ef-file:disabled + .ef-drop { cursor: default; color: var(--text-muted); }
+.ef-thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: var(--space-10); margin: var(--space-10) 0 0; padding: 0; list-style: none; }
+.ef-thumbs:empty { display: none; }
+.ef-thumbs li { position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); background: var(--surface-muted); }
+.ef-thumbs img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.ef-thumb-remove { position: absolute; top: var(--space-10); right: var(--space-10); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: var(--radius-full); background: var(--overlay); color: var(--on-photo); font: inherit; font-size: 20px; line-height: 1; cursor: pointer; }
+.ef-thumb-remove:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+/* consent */
+.ef-check { display: flex; align-items: flex-start; gap: var(--space-10); font-size: 15px; line-height: 24px; color: var(--text); cursor: pointer; }
+.ef-check input { flex: none; width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--ink); }
+.ef-field.is-invalid .ef-check { color: var(--accent); }
+/* honeypot: off-screen for people, still in the form for bots */
+.ef-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.ef-error { margin: 0; padding: var(--space-15) var(--space-20); border-left: 4px solid var(--accent); border-radius: var(--radius-sm); background: var(--surface-alt); font-size: 15px; line-height: 24px; font-weight: 600; color: var(--ink); }
+.ef-submit { justify-self: start; min-width: 200px; justify-content: center; border: 0; font-family: inherit; cursor: pointer; }
+.ef-submit:disabled { opacity: .6; cursor: progress; }
+.ef-done { padding: var(--space-40) var(--space-30); border-radius: var(--radius-md); background: var(--surface-alt); text-align: center; }
+.ef-done:focus { outline: none; }
+.ef-done-title { margin: 0 0 var(--space-10); font-size: 24px; line-height: 34px; font-weight: 700; color: var(--ink); }
+.ef-done p { margin: 0; color: var(--text); }
+.service-content code { font-size: 15px; color: var(--ink); }
+.service-content a { color: var(--ink); text-underline-offset: 3px; }
+.service-content a:hover { color: var(--text); }
+.privacy-consent-btn { margin-left: var(--space-10); vertical-align: middle; cursor: pointer; font-family: inherit; }
+.legal-updated { margin-top: var(--space-40); font-size: 14px; color: var(--text-meta); }
+.fb-footer a:hover { color: var(--on-dark); }
+
+/* Header: menu left, logo exactly centred, social icons right.
+   The two side columns are always equal, so the logo sits in the exact centre at
+   every width. The menu is a little smaller (15px, 10px around each link) so it fits
+   beside the logo; where it would not, the menu button takes over (see below). */
+.fb-header { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: var(--space-30); }
+.fb-header .fb-nav { justify-self: start; margin-left: calc(var(--space-10) * -1); white-space: nowrap; } /* first link's text on the page edge */
+.fb-header .fb-nav a { font-size: 15px; padding: var(--space-10); }
+.fb-header .fb-logo { justify-self: center; text-decoration: none; }
+.fb-header .fb-social { justify-self: end; gap: var(--space-20); }
+
+/* Header social icons: white circles with black icons, yellow on hover */
+.fb-header .fb-social a { background: var(--on-photo); color: var(--on-brand); transition: background-color .2s ease; }
+.fb-header .fb-social a:hover { background: var(--brand); }
+.fb-social a:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+.fb-social svg { width: 22px; height: 22px; }
+
+/* Footer social icons: black on yellow (DESIGN.md recommendation, white fails contrast) */
+.fb-social a { color: var(--on-brand); }
+
+/* Menu toggle only shows on small screens */
+.nav-toggle { display: none; background: none; border: 0; color: var(--on-photo); padding: var(--space-10); cursor: pointer; }
+.nav-toggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+
+/* Floating chat button, every page */
+.chat-float { position: fixed; right: var(--space-20); bottom: var(--space-20); z-index: 50; }
+.chat-float .fb-chat-btn { text-decoration: none; }
+.fb-chat-btn .icon-close { display: none; }
+.fb-chat-btn[aria-expanded="true"] .icon-chat { display: none; }
+.fb-chat-btn[aria-expanded="true"] .icon-close { display: block; }
+
+/* Chat menu: white card (shadow-float, the system's only shadow) with phone and email */
+.chat-menu { display: flex; flex-direction: column; gap: var(--space-10); padding: var(--space-10); background: var(--surface); border-radius: var(--radius-md); box-shadow: var(--shadow-float); min-width: 230px; }
+.chat-menu[hidden] { display: none; }
+.chat-option { display: flex; align-items: center; gap: var(--space-15); padding: var(--space-10); border-radius: var(--radius-chat); color: var(--ink); text-decoration: none; font-size: 16px; line-height: 20px; font-weight: 600; }
+.chat-option:hover { background: var(--surface-muted); }
+.chat-option:focus-visible { outline: 2px solid var(--on-brand); outline-offset: 2px; }
+.chat-option small { display: block; font-size: 14px; font-weight: 400; color: var(--text-muted); }
+.chat-option-icon { flex: none; width: var(--social-icon); height: var(--social-icon); border-radius: var(--radius-full); background: var(--brand); color: var(--on-brand); display: inline-flex; align-items: center; justify-content: center; }
+
+/* Grids that fall back gracefully */
+.fb-cards { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+.fb-card { width: auto; }
+
+/* Below this width the full menu (≈460px) no longer fits beside a centred logo
+   with room to breathe: logo left, icons + menu button right, menu opens underneath */
+@media (max-width: 1240px) {
+  .fb-header { display: flex; flex-wrap: wrap; gap: var(--space-20); }
+  .fb-header .fb-logo { order: 1; margin-right: auto; }
+  .fb-header .fb-social { order: 2; gap: var(--space-10); }
+  .nav-toggle { display: inline-flex; order: 3; }
+  .fb-header .fb-nav { display: none; order: 4; width: 100%; margin-left: 0; flex-direction: column; }
+  .fb-header .fb-nav.is-open { display: flex; }
+}
+
+@media (max-width: 1024px) {
+  .fb-title-xl { font-size: 64px; line-height: 54px; letter-spacing: -3px; }
+  .fb-title-lg { font-size: 56px; line-height: 48px; letter-spacing: -3px; }
+  .fb-watermark { font-size: 110px; }
+  .fb-hero-title { font-size: 52px; line-height: 56px; }
+  .fb-hero-body { grid-template-columns: 1fr; gap: var(--space-30); }
+  .fb-hero-lead { max-width: var(--content); }
+  .fb-footer { grid-template-columns: repeat(2, 1fr); }
+  .footer-col-logo { grid-column: 1 / -1; }
+  .fb-steps { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .consent { left: var(--space-10); right: var(--space-10); bottom: var(--space-10); width: auto; }
+  .legal-hero { min-height: 0; }
+  .fb-hero.estimate-cover { min-height: 270px; }
+  .estimate-logo { width: 96px; height: 96px; margin-top: -48px; }
+  .estimate-logo img { width: 70px; }
+  .estimate-title { font-size: 32px; line-height: 38px; }
+  .estimate-lead { font-size: 17px; line-height: 28.9px; }
+  .estimate-steps { flex-direction: column; gap: var(--space-10); }
+  .ef-choice { flex: 1 1 100%; }
+  .ef-choice span { width: 100%; }
+  .ef-submit { justify-self: stretch; }
+  .privacy-consent-btn { display: flex; margin: var(--space-15) 0 0; }
+  .site-logo img { height: 52px; }
+  .container { padding: 0 var(--space-20); }
+  .section { padding: calc(var(--space-40) + var(--space-10)) 0; }
+  .fb-header { padding: var(--space-15) var(--space-20); }
+  .fb-header .fb-social { display: none; }
+  .fb-hero { min-height: 520px; }
+  .fb-hero-body { grid-template-columns: 1fr; gap: var(--space-20); padding: 0 var(--space-20) var(--space-40); }
+  .fb-hero-title { font-size: 38px; line-height: 42px; }
+  .fb-hero-lead { max-width: none; }
+  .fb-title-xl { font-size: 44px; line-height: 40px; letter-spacing: -2px; }
+  .fb-title-lg { font-size: 42px; line-height: 38px; letter-spacing: -2px; }
+  .fb-heading-xl { font-size: 34px; line-height: 38px; }
+  .fb-watermark { font-size: 64px; }
+  .fb-emergency { padding: var(--space-60) var(--space-20); }
+  .fb-emergency-sub { font-size: 22px; line-height: 28px; }
+  /* extra bottom space so the floating chat button never covers the copyright line */
+  .fb-footer { grid-template-columns: 1fr; padding: var(--space-40) var(--space-20) calc(var(--space-60) + var(--space-30)); }
+  .map-frame { height: 400px; }
+  .map-card { position: static; width: auto; max-width: none; margin: var(--space-20); box-shadow: none; }
+  .emergency { padding: var(--space-60) var(--space-20); }
+  .emergency-block { border-left-width: var(--space-10); padding-left: var(--space-15); }
+  .emergency-steps { font-size: 17px; line-height: 26px; }
+  .brands { padding: calc(var(--space-40) + var(--space-10)) 0; }
+  .brands-list { gap: var(--space-60); padding-right: var(--space-60); }
+  .brands-list img { height: 64px; max-width: 130px; }
+  .brands-track { animation-duration: 60s; }
+}
