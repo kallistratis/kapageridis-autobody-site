@@ -1,0 +1,35 @@
+# Netlify: every push to the `main` branch on GitHub rebuilds and publishes the site.
+# The build needs only the Python standard library.
+
+[build]
+  command = "python scripts/build.py && python scripts/export_site.py"
+  publish = "_upload/kapageridis-site"
+
+[build.environment]
+  PYTHON_VERSION = "3.12"
+
+# Basic security headers for every page
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+# Fonts never change: keep them for a year
+[[headers]]
+  for = "/design-system/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Photos and videos keep their names when replaced, so cache them for a week only
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

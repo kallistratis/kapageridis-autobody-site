@@ -128,6 +128,8 @@ python scripts/export_site.py       # deployable folder: _upload/kapageridis-sit
 
 Change business details only in `data/business.json` and texts in `data/services.json`, then run the build.
 
+**Deploy:** every push to `main` is built and published by Netlify using [`netlify.toml`](netlify.toml) — the same two commands, plus security headers and cache rules.
+
 ## Credits
 
 Designed and developed by **Kallistratis** — built with [Claude Code](https://claude.com/claude-code) as an AI pair programmer.
