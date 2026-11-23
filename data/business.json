@@ -25,10 +25,6 @@
   },
 
   "email": "kapageridis.gr@yahoo.com",
-  "viber": {
-    "display": "694 420 9870",
-    "tel": "+306944209870"
-  },
 
   "hours": {
     "weekdays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
@@ -53,10 +49,9 @@
     "minRating": 1
   },
 
-  "estimateForm": {
-    "_readme": "Free damage estimate on /dorean-ektimisi/ (the «Δωρεάν εκτίμηση» / «Ζητήστε εκτίμηση» buttons lead there). endpoint = the Web app link of the Google Apps Script in the estimates Google Sheet (scripts/estimate-apps-script.gs): when set, the page shows the site's OWN form, which saves photos to Google Drive and adds a row to the Sheet, same columns as before, so Make needs no change. tallyId = old Tally form, used only while endpoint is empty. Then run: python scripts/build.py",
-    "endpoint": "https://script.google.com/macros/s/AKfycbzCUA6HHZe1VqirIKRKqZRvZjh50xGYjGEJGI-H6o4VTsJ88UXmjMAp59bqcCOBUZlwIQ/exec",
-    "tallyId": "pey0p1"
+  "appointmentForm": {
+    "_readme": "Appointment request on /rantevou/ (the «Κλείστε ραντεβού» buttons lead there). endpoint = the Web app link of the Google Apps Script in the requests Google Sheet (scripts/appointment-apps-script.gs). The customer picks one of the next working days and a half-hour slot inside hours.opens–closes; the script adds one row (columns A–L as before, M–N the appointment) and Make sends it to Telegram, then the shop calls to confirm. Empty endpoint = no form: the buttons lead to the contact details.",
+    "endpoint": "https://script.google.com/macros/s/AKfycbzCUA6HHZe1VqirIKRKqZRvZjh50xGYjGEJGI-H6o4VTsJ88UXmjMAp59bqcCOBUZlwIQ/exec"
   },
 
   "analytics": {

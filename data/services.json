@@ -1,10 +1,10 @@
 {
-  "_readme": "Texts of the services (from ypiresies.md). The home page cards and the pages /fanopoiia/, /vafi-aftokinitou/, /pdr/ are built from here with templates/service.html. **bold** works inside texts. {phone} and {viber} are filled in from data/business.json. homeImage/homeImageAlt/homeFocus: the photo of the big panel on the home page only (homeFocus = which part stays visible when the panel is wide, CSS object-position); image/imageAlt: the «Άλλες υπηρεσίες» cards and the schema. heroVideo: looping video at the top of the service page (scripts/service_videos.py); without it the page shows the photo. heroFocus (optional): which part of the video stays visible, e.g. \"50% 80%\" = lower part. After editing run: python scripts/build.py",
+  "_readme": "Texts of the services (from ypiresies.md). The home page cards and the pages /fanopoiia/, /vafi-aftokinitou/, /pdr/ are built from here with templates/service.html. **bold** works inside texts. {phone} is filled in from data/business.json. homeImage/homeImageAlt/homeFocus: the photo of the big panel on the home page only (homeFocus = which part stays visible when the panel is wide, CSS object-position); image/imageAlt: the «Άλλες υπηρεσίες» cards and the schema. heroVideo: looping video at the top of the service page (scripts/service_videos.py); without it the page shows the photo. heroFocus (optional): which part of the video stays visible, e.g. \"50% 80%\" = lower part. After editing run: python scripts/build.py",
 
   "home": {
     "eyebrow": "ΤΙ ΚΑΝΟΥΜΕ",
-    "title": "Φανοποιία, βαφή και PDR σε ένα συνεργείο",
-    "description": "Από ένα μικρό βαθούλωμα στο πάρκινγκ μέχρι τη ζημιά ενός τρακαρίσματος, όλη η επισκευή γίνεται σε ένα μέρος, στην Πυλαία.",
+    "title": "Φανοποιία, βαφή και PDR σε έναν χώρο",
+    "description": "Από ένα μικρό βαθούλωμα στο πάρκινγκ μέχρι τη ζημιά ενός τρακαρίσματος, όλη η επισκευή γίνεται σε ένα μέρος.",
     "extrasTitle": "ΕΠΙΣΗΣ",
     "extras": [
       "**Προφυλακτήρες:** γρατζουνιές, ραγίσματα και βαθουλώματα, με επισκευή και βαφή στο χρώμα του αυτοκινήτου.",
@@ -57,7 +57,7 @@
         { "q": "Συνεργάζεστε με ασφαλιστικές εταιρείες;",
           "a": "Ναι. Μετά από ένα τρακάρισμα σας βοηθάμε με τη διαδικασία της ασφαλιστικής και σας ενημερώνουμε σε κάθε βήμα, ώστε να μη χρειάζεται να τρέχετε εσείς." }
       ],
-      "cta": "Τράκαρες; Καλέστε μας στο {phone} ή στείλτε μας φωτογραφία της ζημιάς στο Viber {viber}."
+      "cta": "Τράκαρες; Καλέστε μας στο {phone} ή κλείστε ραντεβού για εκτίμηση."
     },
     {
       "slug": "vafi-aftokinitou",
@@ -97,13 +97,13 @@
         { "q": "Θα φαίνεται η διαφορά στο χρώμα μετά τη βαφή;",
           "a": "Όχι, αν η δουλειά γίνει σωστά. Ετοιμάζουμε το χρώμα ειδικά για το δικό σας αυτοκίνητο, το δοκιμάζουμε σε δείγμα πριν βάψουμε και ελέγχουμε το αποτέλεσμα στο φως της ημέρας. Ο στόχος μας είναι να μη μπορείτε να βρείτε ποιο κομμάτι βάφτηκε." }
       ],
-      "cta": "Θέλετε εκτίμηση; Καλέστε μας στο {phone}."
+      "cta": "Θέλετε εκτίμηση; Κλείστε ραντεβού ή καλέστε μας στο {phone}."
     },
     {
       "slug": "pdr",
       "name": "PDR: επισκευή βαθουλωμάτων χωρίς βαφή",
       "cardTitle": "PDR: βαθουλώματα χωρίς βαφή",
-      "menuLabel": "Βαθουλώματα PDR",
+      "menuLabel": "PDR",
       "cardText": "Για βαθουλώματα όπου το χρώμα δεν έχει σπάσει: χωρίς στόκο, χωρίς βαφή, και η εργοστασιακή βαφή του αυτοκινήτου μένει.",
       "dark": true,
       "image": "pdr",
@@ -113,7 +113,7 @@
       "homeFocus": "55% 50%",
       "imageAlt": "Επισκευή βαθουλώματος με PDR: εργαλείο έλξης πάνω στη λαμαρίνα, μπροστά από λάμπα PDR",
       "title": "PDR στην Πυλαία – Βαθουλώματα Χωρίς Βαφή | Καπαγερίδης",
-      "description": "PDR στην Πυλαία Θεσσαλονίκης: επισκευή βαθουλωμάτων χωρίς βαφή και στόκο, με την εργοστασιακή βαφή να μένει. Στείλτε φωτογραφία για εκτίμηση.",
+      "description": "PDR στην Πυλαία Θεσσαλονίκης: επισκευή βαθουλωμάτων χωρίς βαφή και στόκο, με την εργοστασιακή βαφή να μένει. Κλείστε online ραντεβού για εκτίμηση.",
       "h1": "PDR: επισκευή βαθουλωμάτων χωρίς βαφή",
       "intro": "Το PDR (Paintless Dent Repair) είναι μια τεχνική επισκευής βαθουλωμάτων χωρίς στόκο και χωρίς βαφή. Με ειδικά εργαλεία πιέζουμε τη λαμαρίνα από την πίσω πλευρά και τη φέρνουμε σιγά-σιγά πίσω στο αρχικό της σχήμα. Η εργοστασιακή βαφή του αυτοκινήτου μένει ανέπαφη.",
       "blocks": [
@@ -142,10 +142,10 @@
       "faqs": [
         { "q": "Το PDR είναι μόνιμη επισκευή;",
           "a": "Ναι. Η λαμαρίνα επιστρέφει στο αρχικό της σχήμα και δεν «ξαναβγαίνει» το βαθούλωμα. Επειδή δεν μπαίνει στόκος ούτε νέα βαφή, δεν υπάρχει τίποτα που να μπορεί να ραγίσει ή να ξεθωριάσει αργότερα." },
-        { "q": "Μπορώ να στείλω φωτογραφία για να μάθω αν γίνεται PDR;",
-          "a": "Ναι. Στείλτε μας φωτογραφίες στο Viber {viber}, από κοντά και από λίγο πιο μακριά. Συνήθως σας λέμε από τη φωτογραφία αν γίνεται, και η τελική εκτίμηση γίνεται όταν δούμε το αυτοκίνητο από κοντά." }
+        { "q": "Πώς μαθαίνω αν το βαθούλωμα φεύγει με PDR;",
+          "a": "Κλείστε ραντεβού από τη φόρμα «Κλείστε ραντεβού» ή καλέστε μας. Φέρνετε το αυτοκίνητο, εξετάζουμε το βαθούλωμα με ειδικό φως και σας λέμε επί τόπου αν γίνεται με PDR." }
       ],
-      "cta": "Έχετε βαθούλωμα; Στείλτε μας φωτογραφία στο Viber {viber} ή καλέστε στο {phone}."
+      "cta": "Έχετε βαθούλωμα; Κλείστε ραντεβού για εκτίμηση ή καλέστε στο {phone}."
     }
   ]
 }

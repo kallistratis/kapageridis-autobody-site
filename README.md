@@ -5,9 +5,10 @@
 <h1 align="center">Kapageridis Auto Body — website &amp; automations</h1>
 
 <p align="center">
-  A fast, hand-built website for a family body shop in Thessaloniki, Greece — with a
-  photo-based <b>free damage estimate</b> that lands in the shop owner's Telegram,
-  summarised by AI.
+  A fast, hand-built website for a family body shop in Thessaloniki, Greece — with an
+  <b>online appointment calendar</b> whose requests land in the shop owner's Telegram,
+  ready for a confirmation text. Its first version analysed damage photos with
+  <b>Google Gemini</b>.
 </p>
 
 <p align="center">
@@ -30,9 +31,10 @@
 - **Zero frameworks, zero runtime dependencies.** Semantic HTML, modern CSS and small vanilla JS modules. The build needs nothing but the Python standard library.
 - **Design system first.** Every colour, spacing and radius comes from CSS custom properties (`design-system/tokens.css`), documented in [`DESIGN.md`](design-system/DESIGN.md).
 - **Single source of truth.** Business details live once in `data/business.json` and are written into every page by the build: header, footer, opening hours, map, structured data, privacy policy.
-- **Free estimate → AI → Telegram.** Customers send the car, the damage and photos. The shop owner gets a Telegram message with the photos and a short AI summary, without opening any dashboard.
+- **Two generations of automation.** v1: customers sent photos, the owner got them in Telegram with a Google Gemini damage summary and a reply draft. v2: an appointment calendar, because the owner prefers to see every car in person. Both write the same sheet columns, so the switch needed no data migration and no new Make connections.
+- **Appointment request → Telegram.** Customers describe the car and the damage and pick a day in a small month calendar and a half-hour slot. The shop owner gets one tidy Telegram message and confirms with a text message, without opening any dashboard.
 - **SEO, GEO &amp; AEO ready.** JSON-LD for the business, services, breadcrumbs and FAQs; a generated sitemap; `robots.txt` that welcomes AI crawlers; an automatic check of titles, descriptions, H1s and schema on every build.
-- **Privacy by design (GDPR).** Self-hosted fonts, analytics only after explicit consent, EXIF/GPS stripped from customer photos in the browser, and a privacy page generated from the same config as the features it describes.
+- **Privacy by design (GDPR).** Self-hosted fonts, analytics only after explicit consent, a form that asks only what the appointment needs, and a privacy page generated from the same config as the features it describes.
 - **Lightweight media pipeline.** Responsive WebP images, and seamless looping hero videos cut from 4K footage: an 87&nbsp;MB source becomes ~2&nbsp;MB on desktop and ~0.5&nbsp;MB on phones.
 - **Accessible.** Keyboard and screen-reader friendly menus, form and before/after sliders; every animation respects `prefers-reduced-motion`.
 
@@ -45,32 +47,46 @@
 | ![Service page](docs/screenshots/service-page.jpg) | ![Reviews](docs/screenshots/home-reviews.jpg) |
 
 <p align="center">
-  <img src="docs/screenshots/estimate-form.jpg" alt="Free estimate form" width="64%">
+  <img src="docs/screenshots/booking-form.jpg" alt="Appointment form" width="64%">
   &nbsp;
-  <img src="docs/screenshots/mobile-estimate.jpg" alt="Free estimate on a phone" width="17%">
+  <img src="docs/screenshots/mobile-booking.jpg" alt="Appointment form on a phone" width="17%">
   &nbsp;
   <img src="docs/screenshots/mobile-home.jpg" alt="Home page on a phone" width="17%">
 </p>
 
-## How the free estimate works
+## How appointment requests work
 
-The site's own form replaced a third-party form builder without changing the downstream automation: a small Google Apps Script writes exactly the row format the existing Make scenario already understood.
+The estimate happens at the shop, so the site books the visit instead of collecting photos. The form replaced an earlier photo form without breaking the downstream automation: a small Google Apps Script keeps the same sheet columns and adds the appointment at the end.
 
 ```mermaid
 flowchart LR
-  A["Customer<br/>phone or desktop"] -->|"form + photos<br/>(resized in the browser)"| B["Website<br/>/dorean-ektimisi/"]
+  A["Customer<br/>phone or desktop"] -->|"car, damage,<br/>day and time"| B["Website<br/>/rantevou/"]
   B -->|JSON over HTTPS| C["Google Apps Script<br/>web app"]
-  C -->|JPEG photos| D[("Google Drive")]
-  C -->|"one row, columns A–L"| E[("Google Sheets")]
+  C -->|"one row, columns A–N"| E[("Google Sheets")]
   E -->|watch new rows| F{{"Make.com scenario"}}
-  F -->|"car, damage, 1 photo"| G["Google Gemini<br/>vision model"]
-  G -->|"summary + Viber draft"| F
-  F -->|"message + all photos"| H["Telegram group<br/>of the body shop"]
+  F -->|"formatted message"| H["Telegram group<br/>of the body shop"]
+  H -.->|"confirmation text"| A
 ```
 
-- **In the browser** ([`js/estimate.js`](js/estimate.js)): photos are re-encoded on a `<canvas>` (longest side 1600&nbsp;px, JPEG), which shrinks a typical phone photo by ~75% and removes hidden metadata. Answers are validated with clear Greek messages; phone numbers are normalised (`6944 123 456` → `306944123456`).
-- **On Google** ([`scripts/estimate-apps-script.gs`](scripts/estimate-apps-script.gs)): saves the photos to Drive with link sharing, appends one row with a script lock, and drops spam (hidden honeypot field + minimum fill time) without telling bots.
-- **In Make**: the Gemini prompt follows strict rules — no prices, no repair-time promises, no number plates or faces, plain text only — and an error handler still sends the Telegram message if the AI is unavailable.
+- **In the browser** ([`js/appointment.js`](js/appointment.js)): draws a month calendar where only the working days of the next 30 days are open, skipping weekends and Greek public holidays, including the moving Orthodox Easter holidays (computed with Meeus' algorithm), and half-hour slots generated from the opening hours in `data/business.json`. Answers are validated with clear Greek messages; mobile numbers are normalised (`6944 123 456` → `306944123456`), since the confirmation is a text message.
+- **On Google** ([`scripts/appointment-apps-script.gs`](scripts/appointment-apps-script.gs)): checks everything again on the server (weekday, 1–60 days ahead, inside opening hours), appends one row with a script lock, and drops spam (hidden honeypot field + minimum fill time) without telling bots.
+- **In Make**: watches the sheet for new rows and sends one Telegram message with the car, the damage, the insurance and the requested day and time.
+
+### Version 1: AI photo estimate
+
+Before the calendar, the same pipeline carried **photos**: the browser resized them, Apps Script stored them in Google Drive, and Make asked **Google Gemini** for a short damage summary and a reply draft before posting everything to Telegram.
+
+```mermaid
+flowchart LR
+  A["Customer"] -->|"form + photos"| B["Apps Script"]
+  B --> D[("Drive")]
+  B --> E[("Sheets")]
+  E --> F{{"Make.com"}}
+  F <-->|"summary + reply draft"| G["Gemini vision"]
+  F -->|"message + photos"| H["Telegram"]
+```
+
+The code, the Gemini instructions and the Make scenario (without account data) are kept in [`automations/photo-estimate-v1/`](automations/photo-estimate-v1/).
 
 ## How the site is built
 
@@ -95,11 +111,11 @@ flowchart LR
 
 | Area | Tools |
 |---|---|
-| Front end | Semantic HTML5 · CSS custom properties, Grid &amp; subgrid, `clamp()`, `color-mix()` · vanilla JavaScript (IntersectionObserver, Canvas, Fetch) |
+| Front end | Semantic HTML5 · CSS custom properties, Grid &amp; subgrid, `clamp()`, `color-mix()` · vanilla JavaScript (IntersectionObserver, Fetch) |
 | Build &amp; media | Python 3 (standard library) · Pillow · ffmpeg |
 | SEO | schema.org JSON-LD · Open Graph · sitemap · generated `robots.txt` (search and AI crawlers) |
 | Privacy | Self-hosted Manrope font · Google Analytics 4 behind a consent banner (ads signals off) · generated privacy policy |
-| Automation | Google Apps Script · Google Sheets &amp; Drive · Make.com · Google Gemini · Telegram Bot API |
+| Automation | Google Apps Script · Google Sheets · Make.com · Telegram Bot API · v1: Google Drive, Google Gemini, Canvas image resizing |
 | Hosting &amp; workflow | Netlify · Git &amp; GitHub · Claude Code (AI pair programming) |
 
 ## Project structure
@@ -107,7 +123,7 @@ flowchart LR
 ```text
 ├── index.html, 404.html          home page and not-found page
 ├── fanopoiia/ vafi-aftokinitou/ pdr/   service pages (generated – do not edit)
-├── dorean-ektimisi/              free estimate page with the form
+├── rantevou/                     appointment page with the form
 ├── politiki-aporritou/           privacy policy (generated from the config)
 ├── data/                         business.json · services.json · reviews.json
 ├── templates/service.html        one template for all service pages
@@ -115,6 +131,7 @@ flowchart LR
 ├── css/  js/                     site styles and small scripts
 ├── images/  assets/              photos (WebP) and videos (MP4)
 ├── scripts/                      build, export, image and video tools, Apps Script
+├── automations/photo-estimate-v1/   first automation: AI photo estimate (archived)
 └── docs/screenshots/             images for this README
 ```
 

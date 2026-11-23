@@ -8,6 +8,17 @@
 [build.environment]
   PYTHON_VERSION = "3.12"
 
+# The old photo-estimate page became the appointment page
+[[redirects]]
+  from = "/dorean-ektimisi"
+  to = "/rantevou/"
+  status = 301
+
+[[redirects]]
+  from = "/dorean-ektimisi/*"
+  to = "/rantevou/"
+  status = 301
+
 # Basic security headers for every page
 [[headers]]
   for = "/*"

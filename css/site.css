@@ -354,28 +354,26 @@ img { max-width: 100%; display: block; }
 /* Privacy page: same reading column as the service pages */
 .legal-hero { min-height: 420px; }
 
-/* Free estimate page (/dorean-ektimisi/), laid out like the Tally form page:
+/* Appointment page (/rantevou/), laid out like a form page:
    low workshop photo as a cover with the menu on top, round logo badge sitting on
    the cover's edge, dark title on white, the three steps in one line, then the form. */
-.fb-hero.estimate-cover { min-height: clamp(300px, 27vw, 520px); } /* follows the screen width, so the whole car always shows under the menu and the title stays close to the top */
-.estimate-cover .section-bg img { object-position: 50% 30%; }
-.estimate-cover::before { background: linear-gradient(to bottom, var(--overlay) 0%, color-mix(in srgb, var(--surface-night) 15%, transparent) 70%); }
-.estimate-main { padding: 0 0 var(--space-60); }
-.estimate-sheet { position: relative; max-width: var(--content); margin: 0 auto; }
-.estimate-logo { display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 120px; height: 120px; margin-top: -60px; border: 4px solid var(--surface); border-radius: var(--radius-full); background: var(--surface-night); }
-.estimate-logo img { display: block; width: 88px; height: auto; }
-.estimate-title { margin: var(--space-20) 0 var(--space-15); font-size: 40px; line-height: 48px; font-weight: 700; color: var(--ink); }
-.estimate-lead { margin: 0 0 var(--space-30); font-size: 19px; line-height: 28.9px; color: var(--text); }
-.estimate-steps { display: flex; flex-wrap: wrap; gap: var(--space-15) var(--space-30); margin: 0 0 var(--space-30); padding: 0 0 var(--space-30); list-style: none; counter-reset: step; border-bottom: 1px solid var(--surface-muted); }
-.estimate-steps li { display: flex; align-items: center; gap: var(--space-10); counter-increment: step; font-size: 15px; line-height: 24px; font-weight: 600; color: var(--ink); }
-.estimate-steps li::before { content: counter(step); flex: none; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: var(--radius-full); background: var(--surface-slate); color: var(--on-dark); font-size: 14px; font-weight: 700; }
-.estimate-form { scroll-margin-top: var(--space-20); }
-.estimate-form iframe { display: block; width: 100%; border: 0; }
-.estimate-note { margin: var(--space-15) 0 0; font-size: 15px; line-height: 24px; color: var(--text-muted); }
-.estimate-sheet a { color: var(--ink); text-underline-offset: 3px; }
+.fb-hero.booking-cover { min-height: clamp(300px, 27vw, 520px); } /* follows the screen width, so the whole car always shows under the menu and the title stays close to the top */
+.booking-cover .section-bg img { object-position: 50% 30%; }
+.booking-cover::before { background: linear-gradient(to bottom, var(--overlay) 0%, color-mix(in srgb, var(--surface-night) 15%, transparent) 70%); }
+.booking-main { padding: 0 0 var(--space-60); }
+.booking-sheet { position: relative; max-width: var(--content); margin: 0 auto; }
+.booking-logo { display: flex; align-items: center; justify-content: center; box-sizing: border-box; width: 120px; height: 120px; margin-top: -60px; border: 4px solid var(--surface); border-radius: var(--radius-full); background: var(--surface-night); }
+.booking-logo img { display: block; width: 88px; height: auto; }
+.booking-title { margin: var(--space-20) 0 var(--space-15); font-size: 40px; line-height: 48px; font-weight: 700; color: var(--ink); }
+.booking-lead { margin: 0 0 var(--space-30); font-size: 19px; line-height: 28.9px; color: var(--text); }
+.booking-steps { display: flex; flex-wrap: wrap; gap: var(--space-15) var(--space-30); margin: 0 0 var(--space-30); padding: 0 0 var(--space-30); list-style: none; counter-reset: step; border-bottom: 1px solid var(--surface-muted); }
+.booking-steps li { display: flex; align-items: center; gap: var(--space-10); counter-increment: step; font-size: 15px; line-height: 24px; font-weight: 600; color: var(--ink); }
+.booking-steps li::before { content: counter(step); flex: none; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: var(--radius-full); background: var(--surface-slate); color: var(--on-dark); font-size: 14px; font-weight: 700; }
+.booking-note { margin: var(--space-15) 0 0; font-size: 15px; line-height: 24px; color: var(--text-muted); }
+.booking-sheet a { color: var(--ink); text-underline-offset: 3px; }
 
-/* The site's own estimate form (.ef): calm white form in the design-system type,
-   52px fields with radius-md, dark focus ring, yellow only on «Αποστολή».
+/* The appointment form (.ef): calm white form in the design-system type,
+   52px fields with radius-md, dark focus ring, yellow only on «Κλείστε ραντεβού».
    Problems are marked in the accent colour (the system has no red). */
 .ef { display: grid; gap: var(--space-30); scroll-margin-top: var(--space-20); }
 .ef-field { margin: 0; padding: 0; border: 0; min-width: 0; }
@@ -388,7 +386,7 @@ img { max-width: 100%; display: block; }
 .ef-input:hover { border-color: var(--text-muted); }
 .ef-input:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 1px var(--ink); }
 .ef-input.is-invalid, .ef-input.is-invalid:focus { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
-/* insurance answers as three buttons */
+/* answers as buttons: insurance, day, time */
 .ef-choices { display: flex; flex-wrap: wrap; gap: var(--space-10); }
 .ef-choice { position: relative; display: inline-flex; }
 .ef-choice input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
@@ -396,19 +394,41 @@ img { max-width: 100%; display: block; }
 .ef-choice:hover span { border-color: var(--text-muted); }
 .ef-choice input:checked + span { border-color: var(--ink); background: var(--ink); color: var(--on-dark); }
 .ef-choice input:focus-visible + span { outline: 2px solid var(--brand); outline-offset: 2px; }
-.ef-field.is-invalid .ef-choice span, .ef-field.is-invalid .ef-drop { border-color: var(--accent); }
-/* photos: big dashed area to tap, thumbnails below */
-.ef-file { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; }
-.ef-drop { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-10); padding: var(--space-30) var(--space-20); border: 2px dashed var(--border-light); border-radius: var(--radius-md); background: var(--surface-alt); font-size: 16px; font-weight: 600; color: var(--ink); text-align: center; cursor: pointer; transition: border-color .2s ease; }
-.ef-drop:hover { border-color: var(--text-muted); }
-.ef-file:focus-visible + .ef-drop { outline: 2px solid var(--brand); outline-offset: 2px; }
-.ef-file:disabled + .ef-drop { cursor: default; color: var(--text-muted); }
-.ef-thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: var(--space-10); margin: var(--space-10) 0 0; padding: 0; list-style: none; }
-.ef-thumbs:empty { display: none; }
-.ef-thumbs li { position: relative; aspect-ratio: 1; overflow: hidden; border-radius: var(--radius-md); background: var(--surface-muted); }
-.ef-thumbs img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.ef-thumb-remove { position: absolute; top: var(--space-10); right: var(--space-10); display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; border: 0; border-radius: var(--radius-full); background: var(--overlay); color: var(--on-photo); font: inherit; font-size: 20px; line-height: 1; cursor: pointer; }
-.ef-thumb-remove:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.ef-field.is-invalid .ef-choice span { border-color: var(--accent); }
+/* day and time side by side: month calendar on the left, half-hour slots on the right */
+.ef-when { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--space-30); align-items: start; }
+.ef-times { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-10); }
+.ef-times .ef-choice { display: flex; }
+.ef-times .ef-choice span { width: 100%; justify-content: center; padding: 0 var(--space-10); font-variant-numeric: tabular-nums; }
+/* the calendar: open days dark with a yellow bar, closed days grey, today tinted yellow */
+.ef-cal { padding: var(--space-15) var(--space-15) var(--space-20); border: 1px solid var(--border-light); border-radius: var(--radius-md); background: var(--surface); }
+.ef-field.is-invalid .ef-cal { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.ef-cal-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-10); margin: 0 0 var(--space-15); padding: 0 0 0 var(--space-10); }
+.ef-cal-title { margin: 0; font-size: 17px; line-height: 28px; color: var(--text-meta); }
+.ef-cal-title strong { font-size: 24px; font-weight: 700; color: var(--ink); }
+.ef-cal-nav { display: flex; gap: calc(var(--space-10) / 2); }
+.ef-cal-arrow { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; padding: 0; border: 0; border-radius: var(--radius-full); background: transparent; color: var(--ink); cursor: pointer; transition: background-color .2s ease; }
+.ef-cal-arrow:hover:not(:disabled) { background: var(--surface-alt); }
+.ef-cal-arrow:disabled { color: var(--border-light); cursor: default; }
+.ef-cal-arrow:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.ef-cal-week, .ef-cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.ef-cal-week { margin: 0 0 var(--space-10); padding: calc(var(--space-10) / 2) 0; border-radius: var(--radius-sm); background: var(--surface-alt); font-size: 13px; line-height: 24px; font-weight: 600; color: var(--text-meta); text-align: center; }
+.ef-cal-grid { gap: calc(var(--space-10) / 2); }
+.ef-cal-day { position: relative; display: flex; align-items: center; justify-content: center; height: var(--button-h); border-radius: var(--radius-md); font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text-meta); }
+.ef-cal-day.is-today { background: color-mix(in srgb, var(--brand) 25%, transparent); }
+.ef-cal-day input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; }
+.ef-cal-num { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; border-radius: var(--radius-md); color: var(--ink); font-weight: 700; cursor: pointer; transition: background-color .2s ease; }
+.ef-cal-num::after { content: ""; width: 20px; height: 4px; margin: calc(var(--space-10) / 2) 0 0; border-radius: var(--radius-pill); background: var(--brand); }
+.ef-cal-day.is-open:hover .ef-cal-num { background: var(--surface-alt); }
+.ef-cal-day input:checked + .ef-cal-num { background: var(--ink); color: var(--on-dark); }
+.ef-cal-day input:focus-visible + .ef-cal-num { outline: 2px solid var(--brand); outline-offset: 2px; }
+.ef-cal-legend { display: flex; align-items: center; gap: var(--space-10); margin: var(--space-15) 0 0; padding: 0 0 0 var(--space-10); font-size: 14px; line-height: 20px; color: var(--text-muted); }
+.ef-cal-key { width: 20px; height: 4px; border-radius: var(--radius-pill); background: var(--brand); }
+/* chosen day and time, and how the appointment is confirmed */
+.ef-picked { margin: calc(var(--space-15) * -1) 0 0; font-size: 16px; line-height: 24px; color: var(--text); }
+.ef-picked strong { color: var(--ink); }
+.ef-notice { display: flex; align-items: flex-start; gap: var(--space-15); margin: 0; padding: var(--space-15) var(--space-20); border-left: 4px solid var(--brand); border-radius: var(--radius-sm); background: var(--surface-alt); font-size: 16px; line-height: 24px; color: var(--ink); }
+.ef-notice svg { flex: none; margin: 1px 0 0; }
 /* consent */
 .ef-check { display: flex; align-items: flex-start; gap: var(--space-10); font-size: 15px; line-height: 24px; color: var(--text); cursor: pointer; }
 .ef-check input { flex: none; width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--ink); }
@@ -498,14 +518,19 @@ img { max-width: 100%; display: block; }
 @media (max-width: 760px) {
   .consent { left: var(--space-10); right: var(--space-10); bottom: var(--space-10); width: auto; }
   .legal-hero { min-height: 0; }
-  .fb-hero.estimate-cover { min-height: 270px; }
-  .estimate-logo { width: 96px; height: 96px; margin-top: -48px; }
-  .estimate-logo img { width: 70px; }
-  .estimate-title { font-size: 32px; line-height: 38px; }
-  .estimate-lead { font-size: 17px; line-height: 28.9px; }
-  .estimate-steps { flex-direction: column; gap: var(--space-10); }
+  .fb-hero.booking-cover { min-height: 270px; }
+  .booking-logo { width: 96px; height: 96px; margin-top: -48px; }
+  .booking-logo img { width: 70px; }
+  .booking-title { font-size: 32px; line-height: 38px; }
+  .booking-lead { font-size: 17px; line-height: 28.9px; }
+  .booking-steps { flex-direction: column; gap: var(--space-10); }
   .ef-choice { flex: 1 1 100%; }
   .ef-choice span { width: 100%; }
+  .ef-when { grid-template-columns: minmax(0, 1fr); }
+  .ef-times { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .ef-times .ef-choice span { padding: 0; font-size: 15px; }
+  .ef-cal { padding: var(--space-10) var(--space-10) var(--space-15); }
+  .ef-cal-day { height: 46px; font-size: 16px; }
   .ef-submit { justify-self: stretch; }
   .privacy-consent-btn { display: flex; margin: var(--space-15) 0 0; }
   .site-logo img { height: 52px; }

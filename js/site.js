@@ -1,8 +1,8 @@
 /*
  * Shared behaviour for every page (loaded with `defer`):
- * mobile menu button, the floating chat menu (phone / email), the hero video,
- * the free estimate form (Tally, /dorean-ektimisi/) and the cookie banner for
- * the statistics (Google Analytics 4, only after consent).
+ * mobile menu button, the floating chat menu (phone / email), the hero video
+ * and the cookie banner for the statistics (Google Analytics 4, only after consent).
+ * The appointment form has its own script (js/appointment.js).
  * Header, footer and chat markup are written by scripts/build.py.
  */
 (() => {
@@ -40,22 +40,6 @@
     document.addEventListener('click', (e) => {
       if (!chatMenu.hidden && !e.target.closest('.chat-float')) setChat(false);
     });
-  }
-
-  // Free estimate form (Tally), only on the page that has it: Tally's script fills in
-  // the iframe and keeps its height equal to the form. If the script fails, load it anyway.
-  const tallyFrames = document.querySelectorAll('iframe[data-tally-src]');
-  if (tallyFrames.length) {
-    const showForms = () => {
-      if (window.Tally) window.Tally.loadEmbeds();
-      else tallyFrames.forEach((frame) => { if (!frame.src) frame.src = frame.dataset.tallySrc; });
-    };
-    const tallyScript = document.createElement('script');
-    tallyScript.src = 'https://tally.so/widgets/embed.js';
-    tallyScript.async = true;
-    tallyScript.onload = showForms;
-    tallyScript.onerror = showForms;
-    document.body.appendChild(tallyScript);
   }
 
   // Statistics consent (Google Analytics 4). The banner exists only when

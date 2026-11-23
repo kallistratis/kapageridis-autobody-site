@@ -16,7 +16,7 @@
  * H Φωτογραφίες (one link per line), I Ονοματεπώνυμο, J Κινητό (digits with country
  * code, no "+": Make adds it), K Συμφωνία, L Συμφωνία (TRUE).
  *
- * Copy of the file in the site's folder: scripts/estimate-apps-script.gs
+ * Archived copy (version 1, no longer used by the site): automations/photo-estimate-v1/
  */
 
 const SHEET_NAME = 'Sheet1';                       // the tab Make watches
@@ -90,7 +90,7 @@ function clean(value, max) {
   return String(value || '').replace(/[\u0000-\u0009\u000B-\u001F\u007F]/g, '').trim().slice(0, max);
 }
 
-/** "694 420 9870", "+30 6944209870", "0030..." → "306944209870". Other countries kept as typed. */
+/** "694 412 3456", "+30 6944123456", "0030..." → "306944123456". Other countries kept as typed. */
 function phoneDigits(value) {
   let digits = String(value || '').replace(/\D/g, '');
   if (digits.indexOf('00') === 0) digits = digits.slice(2);

@@ -21,9 +21,9 @@ build the service pages, and regenerate sitemap.xml and robots.txt.
 
 Keys: name, shortName, phone, tel, address, maps, directions, mapEmbed,
 instagram, email, mailto, callLabel, phoneLabel, placeId, reviewsUrl,
-writeReviewUrl, reviewsApiKey, reviewsMinRating, foundingYear, viber, viberUrl.
+writeReviewUrl, reviewsApiKey, reviewsMinRating, foundingYear, appointmentUrl.
 
-In data/services.json, {phone} and {viber} are replaced by the numbers above.
+In data/services.json, {phone} is replaced by the phone number above.
 
 It also checks every page: one <h1>, <title> 50-60 characters,
 meta description 140-160 characters, valid JSON-LD.
@@ -129,23 +129,18 @@ GA4_ID = (DATA.get("analytics") or {}).get("ga4Id", "").strip()
 if GA4_ID and not re.fullmatch(r"G-[A-Z0-9]{4,20}", GA4_ID):
     sys.exit(f"data/business.json: analytics.ga4Id must look like G-XXXXXXXXXX, got {GA4_ID!r}")
 PRIVACY_PATH = "/politiki-aporritou/"
-ESTIMATE_FORM = DATA.get("estimateForm") or {}
-ESTIMATE_ENDPOINT = ESTIMATE_FORM.get("endpoint", "").strip()   # our own form -> Google Apps Script
-TALLY_ID = "" if ESTIMATE_ENDPOINT else ESTIMATE_FORM.get("tallyId", "").strip()  # old form, fallback
-HAS_ESTIMATE_FORM = bool(ESTIMATE_ENDPOINT or TALLY_ID)
-ESTIMATE_PATH = "/dorean-ektimisi/"
+APPOINTMENT_FORM = DATA.get("appointmentForm") or {}
+APPOINTMENT_ENDPOINT = APPOINTMENT_FORM.get("endpoint", "").strip()   # our form -> Google Apps Script
+APPOINTMENT_PATH = "/rantevou/"
 
-VIBER = DATA.get("viber") or {}
-VALUES["viber"] = VIBER.get("display", "") or "[Viber]"
-VALUES["viberUrl"] = f"viber://chat?number={quote(VIBER['tel'])}" if VIBER.get("tel") else ""
-# «Δωρεάν εκτίμηση» buttons: the form page if there is a form, else the contact details
-VALUES["estimateUrl"] = ESTIMATE_PATH if HAS_ESTIMATE_FORM else "#epikoinonia"
+# «Κλείστε ραντεβού» buttons: the appointment page if the form is connected, else the contact details
+VALUES["appointmentUrl"] = APPOINTMENT_PATH if APPOINTMENT_ENDPOINT else "#epikoinonia"
 
 
 def fill_tokens(value):
-    """Put the phone and Viber numbers from business.json into texts that say {phone} / {viber}."""
+    """Put the phone number from business.json into texts that say {phone}."""
     if isinstance(value, str):
-        return value.replace("{phone}", VALUES["phone"]).replace("{viber}", VALUES["viber"])
+        return value.replace("{phone}", VALUES["phone"])
     if isinstance(value, list):
         return [fill_tokens(v) for v in value]
     if isinstance(value, dict):
@@ -519,26 +514,25 @@ def block_consent() -> str:
 </div>"""
 
 
-def estimate_form_html() -> str:
-    """The site's own free estimate form. js/estimate.js shrinks the photos in the
-    visitor's browser and sends everything to the Google Apps Script at
-    estimateForm.endpoint, which writes the same Sheet row the old Tally form wrote.
-    Same questions as before, on one page."""
-    camera = ('<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
-              'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8a2 2 0 0 1 2-2h2l2-2h6l2 2h2'
-              'a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="13" r="3.5"/></svg>')
+def appointment_form_html() -> str:
+    """The appointment request form. js/appointment.js draws the month calendar (working
+    days of the next 30 days are open), the half-hour slots of the opening hours, checks the
+    answers and sends them to the Google Apps Script at appointmentForm.endpoint, which adds
+    one row to the requests sheet. Make forwards it to the shop's Telegram and the shop sends
+    the customer a confirmation text message."""
     choices = "\n".join(
         f'      <label class="ef-choice"><input type="radio" name="insurance" value="{v}"><span>{v}</span></label>'
         for v in ("Ναι", "Όχι, ιδιωτικά", "Δεν ξέρω ακόμα")
     )
-    return f"""<form class="ef" id="forma" novalidate data-estimate-form data-endpoint="{esc(ESTIMATE_ENDPOINT)}" data-phone="{esc(VALUES['phone'])}">
+    hours = DATA["hours"]
+    return f"""<form class="ef" id="forma" novalidate data-appointment-form data-endpoint="{esc(APPOINTMENT_ENDPOINT)}" data-phone="{esc(VALUES['phone'])}" data-opens="{esc(hours['opens'])}" data-closes="{esc(hours['closes'])}">
   <div class="ef-field">
     <label class="ef-label" for="ef-car">Αυτοκίνητο (μάρκα, μοντέλο, χρονιά) <span class="ef-req">*</span></label>
     <input class="ef-input" id="ef-car" name="car" type="text" maxlength="200" placeholder="π.χ. Toyota Yaris 2018" required>
   </div>
   <div class="ef-field">
     <label class="ef-label" for="ef-damage">Τι έπαθε το αυτοκίνητο; <span class="ef-req">*</span></label>
-    <textarea class="ef-input ef-textarea" id="ef-damage" name="damage" rows="4" maxlength="3000" placeholder="π.χ. Με χτύπησαν στο πάρκινγκ, βαθούλωμα στην πίσω πόρτα" required></textarea>
+    <textarea class="ef-input ef-textarea" id="ef-damage" name="damage" rows="3" maxlength="3000" placeholder="π.χ. Με χτύπησαν στο πάρκινγκ, βαθούλωμα στην πίσω πόρτα" required></textarea>
   </div>
   <fieldset class="ef-field" data-group="insurance">
     <legend class="ef-label">Θα πάει μέσω ασφαλιστικής; <span class="ef-req">*</span></legend>
@@ -550,62 +544,64 @@ def estimate_form_html() -> str:
     <label class="ef-label" for="ef-insurer">Ποια ασφαλιστική;</label>
     <input class="ef-input" id="ef-insurer" name="insurer" type="text" maxlength="200">
   </div>
-  <div class="ef-field" data-group="photos">
-    <span class="ef-label" id="ef-photos-label">Φωτογραφίες της ζημιάς <span class="ef-req">*</span></span>
-    <p class="ef-hint" id="ef-photos-hint">1 φωτογραφία από μακριά, να φαίνεται όλο το αυτοκίνητο, και 1–2 από κοντά στη ζημιά, με φως ημέρας. Έως 6.</p>
-    <input class="ef-file" id="ef-photos" type="file" accept="image/*" multiple aria-labelledby="ef-photos-label" aria-describedby="ef-photos-hint">
-    <label class="ef-drop" for="ef-photos">{camera}<span data-drop-text>Πατήστε για να προσθέσετε φωτογραφίες</span></label>
-    <ul class="ef-thumbs" data-thumbs></ul>
+  <div class="ef-when">
+    <fieldset class="ef-field" data-group="date">
+      <legend class="ef-label">Ημέρα <span class="ef-req">*</span></legend>
+      <div class="ef-cal" data-calendar>
+        <div class="ef-cal-head">
+          <p class="ef-cal-title" data-cal-title aria-live="polite"></p>
+          <div class="ef-cal-nav">
+            <button class="ef-cal-arrow" type="button" data-cal-prev aria-label="Προηγούμενος μήνας"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button>
+            <button class="ef-cal-arrow" type="button" data-cal-next aria-label="Επόμενος μήνας"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></button>
+          </div>
+        </div>
+        <div class="ef-cal-week" aria-hidden="true"><span>Δευ</span><span>Τρί</span><span>Τετ</span><span>Πέμ</span><span>Παρ</span><span>Σάβ</span><span>Κυρ</span></div>
+        <div class="ef-cal-grid" data-cal-grid></div>
+        <p class="ef-cal-legend"><span class="ef-cal-key" aria-hidden="true"></span>Διαθέσιμες μέρες</p>
+      </div>
+      <input type="hidden" name="date" value="">
+    </fieldset>
+    <fieldset class="ef-field" data-group="time">
+      <legend class="ef-label">Ώρα <span class="ef-req">*</span></legend>
+      <div class="ef-choices ef-times" data-times></div>
+    </fieldset>
   </div>
+  <p class="ef-picked" data-picked aria-live="polite" hidden></p>
+  <p class="ef-notice"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>Το ραντεβού κλείνει όταν σας στείλουμε <strong>μήνυμα επιβεβαίωσης</strong> στο κινητό.</span></p>
   <div class="ef-field">
     <label class="ef-label" for="ef-name">Ονοματεπώνυμο <span class="ef-req">*</span></label>
     <input class="ef-input" id="ef-name" name="name" type="text" autocomplete="name" maxlength="200" required>
   </div>
   <div class="ef-field">
-    <label class="ef-label" for="ef-phone">Κινητό (για να σας απαντήσουμε σε Viber ή τηλέφωνο) <span class="ef-req">*</span></label>
+    <label class="ef-label" for="ef-phone">Κινητό (εδώ θα έρθει το μήνυμα επιβεβαίωσης) <span class="ef-req">*</span></label>
     <input class="ef-input" id="ef-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="69xx xxx xxx" required>
   </div>
   <div class="ef-field" data-group="consent">
-    <label class="ef-check"><input type="checkbox" name="consent" required><span>Συμφωνώ να χρησιμοποιηθούν τα στοιχεία μου μόνο για την εκτίμηση (<a href="{PRIVACY_PATH}">πολιτική απορρήτου</a>).</span></label>
+    <label class="ef-check"><input type="checkbox" name="consent" required><span>Συμφωνώ να χρησιμοποιηθούν τα στοιχεία μου μόνο για το ραντεβού (<a href="{PRIVACY_PATH}">πολιτική απορρήτου</a>).</span></label>
   </div>
   <div class="ef-hp" aria-hidden="true"><label>Αφήστε το κενό <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
   <p class="ef-error" role="alert" data-error hidden></p>
-  <button class="fb-btn fb-btn-primary ef-submit" type="submit">Αποστολή</button>
+  <button class="fb-btn fb-btn-primary ef-submit" type="submit">Κλείστε ραντεβού</button>
   <noscript><p class="ef-error">Η φόρμα χρειάζεται JavaScript. Καλέστε μας στο {esc(VALUES['phone'])}.</p></noscript>
 </form>
 <div class="ef-done" data-done hidden tabindex="-1">
   <h2 class="ef-done-title">Ευχαριστούμε! Λάβαμε το αίτημά σας.</h2>
-  <p>Θα δούμε τις φωτογραφίες και θα σας απαντήσουμε στο Viber ή στο τηλέφωνο.</p>
+  <p>Θα σας στείλουμε μήνυμα στο κινητό μόλις επιβεβαιώσουμε τη μέρα και την ώρα. Αν η ώρα δεν είναι διαθέσιμη, θα σας προτείνουμε άλλη.</p>
 </div>"""
 
 
-def block_estimate() -> str:
-    """Body of /dorean-ektimisi/: three steps, the Tally form (loaded by js/site.js),
-    and phone / Viber as the other way to ask."""
+def block_appointment() -> str:
+    """Body of /rantevou/: three steps, the appointment form, the phone as the other way."""
     phone = f'<a href="{esc(VALUES["tel"])}">{esc(VALUES["phone"])}</a>'
-    viber = (
-        f' ή στείλτε μήνυμα στο <a href="{esc(VALUES["viberUrl"])}">Viber {esc(VALUES["viber"])}</a>'
-        if VALUES["viberUrl"] else ""
-    )
-    steps = """<ol class="estimate-steps">
-  <li>Αυτοκίνητο και τι έπαθε</li>
-  <li>2–3 φωτογραφίες της ζημιάς</li>
-  <li>Σας απαντάμε σε Viber ή τηλέφωνο</li>
+    steps = """<ol class="booking-steps">
+  <li>Πείτε μας για το αυτοκίνητο</li>
+  <li>Διαλέξτε μέρα και ώρα</li>
+  <li>Σας στέλνουμε μήνυμα επιβεβαίωσης</li>
 </ol>"""
-    if ESTIMATE_ENDPOINT:
-        note = f'<p class="estimate-note">Προτιμάτε να μιλήσετε; Καλέστε μας στο {phone}{viber}.</p>'
-        return f"{steps}\n{estimate_form_html()}\n{note}"
-    if not TALLY_ID:
-        return f"{steps}\n<p>Καλέστε μας στο {phone}{viber}.</p>"
-    form_page = f"https://tally.so/r/{quote(TALLY_ID)}"
-    embed = f"https://tally.so/embed/{quote(TALLY_ID)}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-    return f"""{steps}
-<div class="estimate-form" id="forma">
-  <iframe data-tally-src="{esc(embed)}" loading="lazy" width="100%" height="620" title="Φόρμα δωρεάν εκτίμησης ζημιάς"></iframe>
-  <noscript><p><a href="{esc(form_page)}">Ανοίξτε τη φόρμα εκτίμησης</a></p></noscript>
-</div>
-<p class="estimate-note">Δεν ανοίγει η φόρμα; <a href="{esc(form_page)}" target="_blank" rel="noopener">Ανοίξτε τη σε νέα καρτέλα</a>. Προτιμάτε να μιλήσετε; Καλέστε μας στο {phone}{viber}.</p>
-<p class="estimate-note">Τα στοιχεία σας τα χρησιμοποιούμε μόνο για την εκτίμηση. Περισσότερα στην <a href="{PRIVACY_PATH}">πολιτική απορρήτου</a>.</p>"""
+    if not APPOINTMENT_ENDPOINT:
+        return f"{steps}\n<p>Καλέστε μας στο {phone} για να κλείσουμε ραντεβού.</p>"
+    note = f'<p class="booking-note">Προτιμάτε να μιλήσετε; Καλέστε μας στο {phone}.</p>'
+    return f"{steps}\n{appointment_form_html()}\n{note}"
 
 
 def block_privacy() -> str:
@@ -622,45 +618,26 @@ def block_privacy() -> str:
         f"<p>Υπεύθυνος για τα στοιχεία σας είναι η επιχείρηση <strong>{esc(DATA['name'])}</strong>, "
         f"{esc(a['full'])}. Για οτιδήποτε σχετικά με τα στοιχεία σας, επικοινωνήστε μαζί μας {contact}.</p>",
         "<h2>Όταν επικοινωνείτε μαζί μας</h2>",
-        "<p>Όταν μας καλείτε, μας στέλνετε email ή μήνυμα στο Viber, χρησιμοποιούμε όσα μας δίνετε "
+        "<p>Όταν μας καλείτε ή μας στέλνετε email, χρησιμοποιούμε όσα μας δίνετε "
         "(όνομα, τηλέφωνο, email, φωτογραφίες της ζημιάς, στοιχεία του αυτοκινήτου) μόνο για να σας απαντήσουμε, "
         "να κάνουμε την εκτίμηση και την επισκευή. Δεν τα πουλάμε και δεν τα δίνουμε σε άλλους, εκτός αν "
         "χρειάζεται για την ασφαλιστική σας με δική σας συμφωνία ή αν το ζητά ο νόμος (π.χ. για την έκδοση παραστατικών).</p>",
-        "<p>Τα μηνύματα στο Viber περνούν από την υπηρεσία Viber και τα email από τον πάροχο email μας, "
-        "σύμφωνα με τους δικούς τους όρους.</p>",
+        "<p>Τα email περνούν από τον πάροχο email μας, "
+        "σύμφωνα με τους δικούς του όρους.</p>",
         "<h2>Χάρτης Google</h2>",
         "<p>Στην αρχική σελίδα υπάρχει χάρτης από τους Χάρτες Google, για να βρίσκετε εύκολα το συνεργείο. "
         "Όταν φτάνετε κοντά στον χάρτη, ο browser σας τον φορτώνει απευθείας από την Google. Έτσι η Google "
         "λαμβάνει τη διεύθυνση IP σας και μπορεί να χρησιμοποιήσει δικά της cookies. Για αυτά ισχύει η "
         f"{google_privacy}. Αν δεν θέλετε να φορτώσει ο χάρτης, μην κατεβείτε μέχρι το τέλος της αρχικής σελίδας.</p>",
     ]
-    if ESTIMATE_ENDPOINT:
+    if APPOINTMENT_ENDPOINT:
         parts += [
-            "<h2>Φόρμα δωρεάν εκτίμησης</h2>",
-            f'<p>Όσα συμπληρώνετε στη φόρμα της σελίδας <a href="{ESTIMATE_PATH}">«Δωρεάν εκτίμηση»</a> (αυτοκίνητο, τι έπαθε, '
-            "ασφαλιστική, φωτογραφίες, ονοματεπώνυμο, κινητό) αποθηκεύονται στον λογαριασμό μας στη Google: τα στοιχεία σε "
-            "υπολογιστικό φύλλο Google Sheets και οι φωτογραφίες σε φάκελο Google Drive, με σύνδεσμο που δεν δημοσιεύεται πουθενά. "
-            "Από εκεί μας στέλνονται αυτόματα, μέσω της υπηρεσίας αυτοματισμού Make, ως μήνυμα στο Telegram, για να δούμε γρήγορα "
-            "το αίτημά σας. Πριν σταλούν, ο browser σας μικραίνει τις φωτογραφίες και αφαιρεί τα κρυφά τους στοιχεία (π.χ. την τοποθεσία).</p>",
-            "<p>Για μια πρώτη ματιά, η περιγραφή της ζημιάς και μία φωτογραφία (όχι το όνομα και το κινητό σας) "
-            "περνούν από το εργαλείο τεχνητής νοημοσύνης Gemini της Google, που μας γράφει μια σύντομη σύνοψη. "
-            "Είναι μόνο βοήθημα: την εκτίμηση την κάνουμε εμείς.</p>",
-            "<p>Χρησιμοποιούμε αυτά τα στοιχεία μόνο για την εκτίμηση και, αν μας αναθέσετε τη δουλειά, για την επισκευή, "
-            "και τα κρατάμε μόνο όσο χρειάζεται γι' αυτό. Η Google και το Telegram μπορεί να επεξεργαστούν στοιχεία "
-            "και εκτός ΕΕ. Μπορείτε να ζητήσετε οποιαδήποτε στιγμή να διαγράψουμε το αίτημά σας.</p>",
-        ]
-    elif TALLY_ID:
-        parts += [
-            "<h2>Φόρμα δωρεάν εκτίμησης</h2>",
-            f'<p>Η φόρμα στη σελίδα <a href="{ESTIMATE_PATH}">«Δωρεάν εκτίμηση»</a> λειτουργεί μέσω της υπηρεσίας '
-            "Tally (Tally BV, Βέλγιο). Όσα συμπληρώνετε (αυτοκίνητο, τι έπαθε, ασφαλιστική, φωτογραφίες, "
-            "ονοματεπώνυμο, κινητό) αποθηκεύονται στο Tally και σε υπολογιστικό φύλλο Google Sheets (Google), "
-            "και μας στέλνονται αυτόματα, μέσω της υπηρεσίας αυτοματισμού Make, ως μήνυμα στο Telegram, "
-            "για να δούμε γρήγορα το αίτημά σας.</p>",
-            "<p>Για μια πρώτη ματιά, η περιγραφή της ζημιάς και μία φωτογραφία (όχι το όνομα και το κινητό σας) "
-            "περνούν από το εργαλείο τεχνητής νοημοσύνης Gemini της Google, που μας γράφει μια σύντομη σύνοψη. "
-            "Είναι μόνο βοήθημα: την εκτίμηση την κάνουμε εμείς.</p>",
-            "<p>Χρησιμοποιούμε αυτά τα στοιχεία μόνο για την εκτίμηση και, αν μας αναθέσετε τη δουλειά, για την επισκευή, "
+            "<h2>Φόρμα ραντεβού</h2>",
+            f'<p>Όσα συμπληρώνετε στη φόρμα της σελίδας <a href="{APPOINTMENT_PATH}">«Κλείστε ραντεβού»</a> (αυτοκίνητο, τι έπαθε, '
+            "ασφαλιστική, μέρα και ώρα, ονοματεπώνυμο, κινητό) αποθηκεύονται σε υπολογιστικό φύλλο Google Sheets, στον λογαριασμό "
+            "μας στη Google, και μας στέλνονται αυτόματα, μέσω της υπηρεσίας αυτοματισμού Make, ως μήνυμα στο Telegram, "
+            "για να σας επιβεβαιώσουμε το ραντεβού με μήνυμα στο κινητό σας.</p>",
+            "<p>Χρησιμοποιούμε αυτά τα στοιχεία μόνο για το ραντεβού, την εκτίμηση και, αν μας αναθέσετε τη δουλειά, την επισκευή, "
             "και τα κρατάμε μόνο όσο χρειάζεται γι' αυτό. Η Google και το Telegram μπορεί να επεξεργαστούν στοιχεία "
             "και εκτός ΕΕ. Μπορείτε να ζητήσετε οποιαδήποτε στιγμή να διαγράψουμε το αίτημά σας.</p>",
         ]
@@ -833,10 +810,10 @@ def service_content(service: dict) -> str:
 
 
 def service_cta(service: dict) -> str:
-    viber_html = (
-        f'<a class="fb-btn fb-btn-outline" href="{esc(VALUES["viberUrl"])}">Στείλτε φωτογραφία στο Viber</a>'
-        if VALUES["viberUrl"]
-        else '<span class="service-cta-pending">[Viber]</span>'
+    # second button: the appointment form, when the site has one
+    appointment_html = (
+        f'<a class="fb-btn fb-btn-outline" href="{APPOINTMENT_PATH}">Κλείστε ραντεβού</a>'
+        if APPOINTMENT_ENDPOINT else ""
     )
     return f"""<section class="service-cta" id="ektimisi" aria-labelledby="cta-title">
   <div class="container">
@@ -844,7 +821,7 @@ def service_cta(service: dict) -> str:
       <h2 class="service-cta-text" id="cta-title">{md_inline(service['cta'])}</h2>
       <div class="fb-row">
         <a class="fb-btn fb-btn-primary" href="{esc(VALUES['tel'])}">Καλέστε {esc(VALUES['phone'])}</a>
-        {viber_html}
+        {appointment_html}
       </div>
     </div>
   </div>
@@ -940,7 +917,7 @@ def generate_service_pages() -> list[Path]:
             "content": service_content(service),
             "cta": service_cta(service),
             "other_cards": others,
-            "estimate_href": ESTIMATE_PATH if HAS_ESTIMATE_FORM else "#ektimisi",
+            "appointment_href": APPOINTMENT_PATH if APPOINTMENT_ENDPOINT else "#ektimisi",
         }
         page = template
         for key, value in values.items():
@@ -1010,7 +987,7 @@ def process(file: Path) -> list[str]:
         "chat": block_chat,
         "services": block_services,
         "privacy": block_privacy,
-        "estimate": block_estimate,
+        "appointment": block_appointment,
     }
 
     def render_block(m: re.Match) -> str:
