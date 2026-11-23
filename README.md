@@ -12,6 +12,12 @@
 </p>
 
 <p align="center">
+  <b>Built 100% with agentic AI</b> — every line of code written by
+  <a href="https://claude.com/claude-code">Claude Code</a>, directed by me.
+</p>
+
+<p align="center">
+  <img alt="Built with agentic AI: Claude Code" src="https://img.shields.io/badge/Built_with_agentic_AI-Claude_Code-D97757?logo=claude&logoColor=white">
   <img alt="HTML5" src="https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white">
   <img alt="CSS3" src="https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white">
   <img alt="JavaScript" src="https://img.shields.io/badge/Vanilla_JS-F7DF1E?logo=javascript&logoColor=black">
@@ -28,6 +34,7 @@
 
 ## Highlights
 
+- **Built entirely with agentic AI.** No code was written by hand: an AI agent (Claude Code) planned, wrote, tested and shipped everything, from my instructions. See [how](#built-with-agentic-ai).
 - **Zero frameworks, zero runtime dependencies.** Semantic HTML, modern CSS and small vanilla JS modules. The build needs nothing but the Python standard library.
 - **Design system first.** Every colour, spacing and radius comes from CSS custom properties (`design-system/tokens.css`), documented in [`DESIGN.md`](design-system/DESIGN.md).
 - **Single source of truth.** Business details live once in `data/business.json` and are written into every page by the build: header, footer, opening hours, map, structured data, privacy policy.
@@ -107,6 +114,23 @@ flowchart LR
 | [`scripts/service_images.py`](scripts/service_images.py) | Pillow: WebP 800/1600 versions, never upscaled, EXIF removed, sizes recorded for `width`/`height`. |
 | [`scripts/service_videos.py`](scripts/service_videos.py) | ffmpeg: cuts the best segment, makes it loop without a visible jump (crossfade for people, forward-and-back for camera moves), exports desktop and phone versions and a poster frame. |
 
+## Built with agentic AI
+
+This project was built end to end through **agentic AI development**. I did not write the code by hand. I gave [Claude Code](https://claude.com/claude-code), Anthropic's agentic coding tool, instructions in plain Greek. The agent then planned and did the work itself inside the repository:
+
+- **Code:** wrote and refactored all the HTML, CSS, JavaScript and Python, following the design system's tokens and rules.
+- **Testing:** ran the build, the SEO checks and a local server, then tested pages in a real browser: forms with mocked requests, holidays in the calendar, mobile and desktop screenshots.
+- **Media:** produced responsive WebP images with Pillow and seamless looping videos with ffmpeg, and blurred customers' number plates.
+- **Automations:** built the Google Apps Script receivers, the Make.com scenario blueprints and the Telegram message templates, and kept the privacy policy in step with them.
+- **Shipping:** handled Git, the Netlify configuration and this README, and checked for keys and personal data before every push.
+
+**My role** was product owner and reviewer:
+- set the goals and the client's requirements;
+- supplied the business details, photos and videos;
+- made the design and product decisions, such as replacing the AI photo estimate with an appointment calendar;
+- reviewed every result;
+- handled the accounts (Google, Make, Telegram, Netlify, GitHub).
+
 ## Tech stack
 
 | Area | Tools |
@@ -116,7 +140,7 @@ flowchart LR
 | SEO | schema.org JSON-LD · Open Graph · sitemap · generated `robots.txt` (search and AI crawlers) |
 | Privacy | Self-hosted Manrope font · Google Analytics 4 behind a consent banner (ads signals off) · generated privacy policy |
 | Automation | Google Apps Script · Google Sheets · Make.com · Telegram Bot API · v1: Google Drive, Google Gemini, Canvas image resizing |
-| Hosting &amp; workflow | Netlify · Git &amp; GitHub · Claude Code (AI pair programming) |
+| Hosting &amp; workflow | Netlify · Git &amp; GitHub · Claude Code (agentic AI development) |
 
 ## Project structure
 
@@ -149,7 +173,7 @@ Change business details only in `data/business.json` and texts in `data/services
 
 ## Credits
 
-Designed and developed by **Kallistratis** — built with [Claude Code](https://claude.com/claude-code) as an AI pair programmer.
+Created and directed by **Kallistratis** — built entirely with agentic AI ([Claude Code](https://claude.com/claude-code)).
 Client: *Καπαγερίδης Ιωάννης – Φανοποιείο · Βαφείο · PDR*, Pylaia, Thessaloniki.
 
 ## License
