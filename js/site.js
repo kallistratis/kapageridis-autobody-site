@@ -27,10 +27,12 @@
   const chatBtn = document.querySelector('.chat-float .fb-chat-btn');
   const chatMenu = document.getElementById('chat-menu');
   if (chatBtn && chatMenu) {
+    const openLabel = chatBtn.getAttribute('aria-label'); // written in the page's language by build.py
+    const closeLabel = document.documentElement.lang === 'en' ? 'Close' : 'Κλείσιμο';
     const setChat = (open) => {
       chatMenu.hidden = !open;
       chatBtn.setAttribute('aria-expanded', String(open));
-      chatBtn.setAttribute('aria-label', open ? 'Κλείσιμο' : 'Επικοινωνία: τηλέφωνο ή email');
+      chatBtn.setAttribute('aria-label', open ? closeLabel : openLabel);
       if (open) chatMenu.querySelector('a').focus();
     };
     chatBtn.addEventListener('click', () => setChat(chatMenu.hidden));

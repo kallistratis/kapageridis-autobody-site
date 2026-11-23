@@ -10,6 +10,7 @@
  *   (data-endpoint, from data/business.json → appointmentForm.endpoint). The script adds
  *   one row; the Make scenario sends it to the shop's Telegram; the shop sends the
  *   customer a confirmation text message. The body is plain text on purpose: no CORS "preflight".
+ * - Greek or English words, from <html lang>; the values sent are the same in both.
  */
 (() => {
   const form = document.querySelector('[data-appointment-form]');
@@ -34,11 +35,43 @@
   const done = document.querySelector('[data-done]');
   const submitText = submitBtn.textContent;
 
-  const MONTHS = ['Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάιος', 'Ιούνιος',
-    'Ιούλιος', 'Αύγουστος', 'Σεπτέμβριος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος'];
-  const MONTHS_OF = ['Ιανουαρίου', 'Φεβρουαρίου', 'Μαρτίου', 'Απριλίου', 'Μαΐου', 'Ιουνίου',
-    'Ιουλίου', 'Αυγούστου', 'Σεπτεμβρίου', 'Οκτωβρίου', 'Νοεμβρίου', 'Δεκεμβρίου'];
-  const WEEKDAYS = ['Κυριακή', 'Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο'];
+  const T = document.documentElement.lang === 'en' ? {
+    months: ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'],
+    monthsOf: null, // English: same as months ("24 November")
+    weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    picked: 'Selected: ',
+    car: 'Please write the car (make, model, year).',
+    damage: 'Please describe briefly what happened to the car.',
+    insurance: 'Please choose whether it will go through insurance.',
+    date: 'Please choose a day for the appointment in the calendar.',
+    time: 'Please choose a time for the appointment.',
+    name: 'Please write your full name.',
+    phone: 'Please write a valid mobile number, e.g. 6944 123 456 or +44 7700 900123.',
+    consent: 'We need your agreement to send the request.',
+    sending: 'Sending…',
+    failed: (phone) => `The request was not sent. Please check your connection and try again${phone ? `, or call us on ${phone}` : ''}.`,
+  } : {
+    months: ['Ιανουάριος', 'Φεβρουάριος', 'Μάρτιος', 'Απρίλιος', 'Μάιος', 'Ιούνιος',
+      'Ιούλιος', 'Αύγουστος', 'Σεπτέμβριος', 'Οκτώβριος', 'Νοέμβριος', 'Δεκέμβριος'],
+    monthsOf: ['Ιανουαρίου', 'Φεβρουαρίου', 'Μαρτίου', 'Απριλίου', 'Μαΐου', 'Ιουνίου',
+      'Ιουλίου', 'Αυγούστου', 'Σεπτεμβρίου', 'Οκτωβρίου', 'Νοεμβρίου', 'Δεκεμβρίου'],
+    weekdays: ['Κυριακή', 'Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο'],
+    picked: 'Επιλογή: ',
+    car: 'Γράψτε το αυτοκίνητο (μάρκα, μοντέλο, χρονιά).',
+    damage: 'Γράψτε με λίγα λόγια τι έπαθε το αυτοκίνητο.',
+    insurance: 'Διαλέξτε αν θα πάει μέσω ασφαλιστικής.',
+    date: 'Διαλέξτε μέρα για το ραντεβού στο ημερολόγιο.',
+    time: 'Διαλέξτε ώρα για το ραντεβού.',
+    name: 'Γράψτε το ονοματεπώνυμό σας.',
+    phone: 'Γράψτε ένα σωστό κινητό, π.χ. 6944 123 456.',
+    consent: 'Χρειάζεται η συμφωνία σας για να στείλουμε το αίτημα.',
+    sending: 'Αποστολή…',
+    failed: (phone) => `Το αίτημα δεν στάλθηκε. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά${phone ? `, ή καλέστε μας στο ${phone}` : ''}.`,
+  };
+  const MONTHS = T.months;
+  const MONTHS_OF = T.monthsOf || T.months;
+  const WEEKDAYS = T.weekdays;
 
   /* ---------- open days: working days of the next DAYS_AHEAD days ---------- */
   const pad = (n) => String(n).padStart(2, '0');
@@ -157,7 +190,7 @@
     const parts = [];
     if (dateInput.value) parts.push(dayName(fromIso(dateInput.value)));
     if (time) parts.push(time.value);
-    picked.replaceChildren('Επιλογή: ', Object.assign(document.createElement('strong'), { textContent: parts.join(', ') }));
+    picked.replaceChildren(T.picked, Object.assign(document.createElement('strong'), { textContent: parts.join(', ') }));
     picked.hidden = false;
   }
 
@@ -200,14 +233,14 @@
     const value = (name) => (form.elements[name] ? form.elements[name].value.trim() : '');
     const group = (name) => form.querySelector(`[data-group="${name}"]`);
     const problems = [];
-    if (!value('car')) problems.push([form.elements.car, 'Γράψτε το αυτοκίνητο (μάρκα, μοντέλο, χρονιά).']);
-    if (!value('damage')) problems.push([form.elements.damage, 'Γράψτε με λίγα λόγια τι έπαθε το αυτοκίνητο.']);
-    if (!checked('insurance')) problems.push([group('insurance'), 'Διαλέξτε αν θα πάει μέσω ασφαλιστικής.']);
-    if (!openDays.has(dateInput.value)) problems.push([group('date'), 'Διαλέξτε μέρα για το ραντεβού στο ημερολόγιο.']);
-    if (!checked('time')) problems.push([group('time'), 'Διαλέξτε ώρα για το ραντεβού.']);
-    if (!value('name')) problems.push([form.elements.name, 'Γράψτε το ονοματεπώνυμό σας.']);
-    if (!phoneDigits(value('phone'))) problems.push([form.elements.phone, 'Γράψτε ένα σωστό κινητό, π.χ. 6944 123 456.']);
-    if (!form.elements.consent.checked) problems.push([group('consent'), 'Χρειάζεται η συμφωνία σας για να στείλουμε το αίτημα.']);
+    if (!value('car')) problems.push([form.elements.car, T.car]);
+    if (!value('damage')) problems.push([form.elements.damage, T.damage]);
+    if (!checked('insurance')) problems.push([group('insurance'), T.insurance]);
+    if (!openDays.has(dateInput.value)) problems.push([group('date'), T.date]);
+    if (!checked('time')) problems.push([group('time'), T.time]);
+    if (!value('name')) problems.push([form.elements.name, T.name]);
+    if (!phoneDigits(value('phone'))) problems.push([form.elements.phone, T.phone]);
+    if (!form.elements.consent.checked) problems.push([group('consent'), T.consent]);
     problems.forEach(([el]) => {
       el.classList.add('is-invalid');
       if (el.matches('input, textarea')) el.setAttribute('aria-invalid', 'true');
@@ -242,7 +275,7 @@
       elapsed: Date.now() - openedAt,
     };
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Αποστολή…';
+    submitBtn.textContent = T.sending;
     errorBox.hidden = true;
     try {
       const response = await fetch(endpoint, { method: 'POST', body: JSON.stringify(payload) });
@@ -253,7 +286,7 @@
       done.focus();
       done.scrollIntoView({ block: 'center' });
     } catch (err) {
-      errorBox.textContent = `Το αίτημα δεν στάλθηκε. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά${phoneLabel ? `, ή καλέστε μας στο ${phoneLabel}` : ''}.`;
+      errorBox.textContent = T.failed(phoneLabel);
       errorBox.hidden = false;
       submitBtn.disabled = false;
       submitBtn.textContent = submitText;

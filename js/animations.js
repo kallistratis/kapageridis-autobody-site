@@ -61,7 +61,9 @@
       const p = Math.min(100, Math.max(0, percent));
       slider.style.setProperty('--pos', `${p}%`);
       range.value = String(p);
-      range.setAttribute('aria-valuetext', `Πριν ${Math.round(p)}%, μετά ${100 - Math.round(p)}%`);
+      range.setAttribute('aria-valuetext', document.documentElement.lang === 'en'
+        ? `Before ${Math.round(p)}%, after ${100 - Math.round(p)}%`
+        : `Πριν ${Math.round(p)}%, μετά ${100 - Math.round(p)}%`);
     }
 
     // Batch pointer moves into one update per frame (smooth on phones)

@@ -1,27 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://kapageridis.gr/en/appointment/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/rantevou/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/appointment/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/rantevou/"/>
+  </url>
+  <url>
+    <loc>https://kapageridis.gr/en/car-body-repair/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/fanopoiia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/car-body-repair/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/fanopoiia/"/>
+  </url>
+  <url>
+    <loc>https://kapageridis.gr/en/car-painting/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/vafi-aftokinitou/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/car-painting/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/vafi-aftokinitou/"/>
+  </url>
+  <url>
+    <loc>https://kapageridis.gr/en/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/"/>
+  </url>
+  <url>
+    <loc>https://kapageridis.gr/en/paintless-dent-repair/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/pdr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/paintless-dent-repair/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/pdr/"/>
+  </url>
+  <url>
+    <loc>https://kapageridis.gr/en/privacy-policy/</loc>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/politiki-aporritou/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/politiki-aporritou/"/>
+  </url>
   <url>
     <loc>https://kapageridis.gr/fanopoiia/</loc>
-    <lastmod>2026-11-22</lastmod>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/fanopoiia/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/car-body-repair/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/fanopoiia/"/>
   </url>
   <url>
     <loc>https://kapageridis.gr/</loc>
-    <lastmod>2026-11-22</lastmod>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/"/>
   </url>
   <url>
     <loc>https://kapageridis.gr/pdr/</loc>
-    <lastmod>2026-11-22</lastmod>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/pdr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/paintless-dent-repair/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/pdr/"/>
   </url>
   <url>
     <loc>https://kapageridis.gr/politiki-aporritou/</loc>
-    <lastmod>2026-11-22</lastmod>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/politiki-aporritou/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/privacy-policy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/politiki-aporritou/"/>
   </url>
   <url>
     <loc>https://kapageridis.gr/rantevou/</loc>
-    <lastmod>2026-11-22</lastmod>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/rantevou/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/appointment/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/rantevou/"/>
   </url>
   <url>
     <loc>https://kapageridis.gr/vafi-aftokinitou/</loc>
-    <lastmod>2026-11-22</lastmod>
+    <lastmod>2026-11-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://kapageridis.gr/vafi-aftokinitou/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://kapageridis.gr/en/car-painting/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://kapageridis.gr/vafi-aftokinitou/"/>
   </url>
 </urlset>

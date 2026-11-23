@@ -1,0 +1,135 @@
+{
+  "_readme": "English texts of the services: the home page band and the pages /en/car-body-repair/, /en/car-painting/, /en/paintless-dent-repair/ (built with templates/service.html). Each service names its Greek page in 'greek'; photos, videos and the customer review come from that service in services.json, every text must be written here. **bold** works inside texts; write {phone}, not the number. After editing run: python scripts/build.py",
+
+  "home": {
+    "eyebrow": "WHAT WE DO",
+    "title": "Body repair, paint and PDR under one roof",
+    "description": "From a small dent in a car park to the damage from a collision, the whole repair is done in one place.",
+    "extrasTitle": "ALSO",
+    "extras": [
+      "**Bumpers:** scratches, cracks and dents, repaired and painted to match your car.",
+      "**Help with your insurer:** after an accident we help you with the claim and keep you informed at every step.",
+      "**Handed back clean:** your car comes back washed and polished, inside and out."
+    ]
+  },
+
+  "services": [
+    {
+      "greek": "fanopoiia",
+      "slug": "car-body-repair",
+      "name": "Collision body repair",
+      "cardTitle": "Collision body repair",
+      "menuLabel": "Body repair",
+      "cardText": "We bring doors, wings, bonnets and bumpers back to their proper shape, so the car fits together again just as it did from the factory.",
+      "imageAlt": "Technician polishing the wing of a black car with a polishing machine",
+      "homeImageAlt": "Technician polishing the wing of a black car with a polishing machine",
+      "title": "Collision Body Repair in Pylaia, Thessaloniki | Kapageridis",
+      "description": "Car body repair in Pylaia, Thessaloniki. We repair doors, wings and bonnets after an accident and help you with your insurance claim. Call {phone}.",
+      "h1": "Car body repair after an accident",
+      "intro": "Body repair means fixing a car's bodywork: we straighten or replace the panels, doors, wings, bonnet and bumpers that were hit, so the car gets back the shape it had when it left the factory. At our workshop in Pylaia we repair cars of every make, from a knock in a car park to the damage from a collision.",
+      "blocks": [
+        { "h2": "When you need a body shop" },
+        { "list": [
+          "After an accident, minor or major.",
+          "When a door, the bonnet or the boot no longer closes as it used to.",
+          "When you see gaps or uneven edges between two body panels.",
+          "When the bumper is cracked, dented or has come loose."
+        ] },
+        { "h2": "How we work" },
+        { "steps": [
+          "**Estimate.** We look at the damage and tell you what it needs, what it will cost and when the car will be ready.",
+          "**Insurance.** If the damage is covered by insurance, we help you with the claim.",
+          "**Repair.** If a part can be repaired, we tell you so. We never replace anything without a reason. Wherever possible we use PDR, so the factory paint stays.",
+          "**Paint.** Where paint is needed, we match the colour so it does not stand out.",
+          "**Handover.** We hand your car back clean, inside and out."
+        ] },
+        { "p": "Because we do body repair, paintwork and PDR in the same workshop, your car does not need to go anywhere else to finish the job." }
+      ],
+      "faqs": [
+        { "q": "How many days does a repair take after an accident?",
+          "a": "It depends on the damage and on whether parts are needed. Minor damage is usually finished in 1–2 working days, while a bigger collision takes a few more days. We tell you the delivery date from the start, together with the estimate." },
+        { "q": "Do you work with insurance companies?",
+          "a": "Yes. After an accident we help you through the insurance process and keep you informed at every step, so you do not have to chase anything yourself." }
+      ],
+      "cta": "Had an accident? Call us on {phone} or book an appointment for an estimate."
+    },
+    {
+      "greek": "vafi-aftokinitou",
+      "slug": "car-painting",
+      "name": "Car painting",
+      "cardTitle": "Car painting",
+      "menuLabel": "Car painting",
+      "cardText": "We paint only what needs painting and match the colour precisely, so you cannot tell old from new.",
+      "imageAlt": "Painter in a white suit and mask spraying a bumper with a paint gun",
+      "homeImageAlt": "Painter in a white suit and mask spraying a bumper with a paint gun",
+      "title": "Car & Bumper Painting in Thessaloniki | Kapageridis",
+      "description": "Car and bumper painting in Pylaia, Thessaloniki, in a paint booth. We match the colour so precisely you cannot tell old from new. Call us on {phone}.",
+      "h1": "Car painting with no difference in colour",
+      "intro": "Car painting is usually done on one or more panels, such as a door, a wing or a bumper, after a repair or when the paint has worn. The hard part is not the painting. It is making the new paint impossible to tell apart from the rest of the car. That is exactly what our customers say they value most.",
+      "blocks": [
+        { "h2": "What we paint" },
+        { "list": [
+          "**Bumpers** with scratches, cracks or dents.",
+          "**Doors, wings and bonnets** after body repair.",
+          "Full car resprays."
+        ] },
+        { "h2": "How we get the colour right" },
+        { "steps": [
+          "**We find the paint code** of your car.",
+          "**We mix the paint** and adjust it, because a car that is a few years old no longer has exactly the colour it had when new.",
+          "**We test it on a sample** before painting the car.",
+          "**We paint in a paint booth** and polish, so the surface has the same shine as the rest of the car.",
+          "**We check the result in daylight** before we hand the car back."
+        ] }
+      ],
+      "faqs": [
+        { "q": "Will the difference in colour show after painting?",
+          "a": "No, if the job is done properly. We mix the paint specifically for your car, test it on a sample before painting and check the result in daylight. Our goal is that you cannot find which panel was painted." }
+      ],
+      "cta": "Need an estimate? Book an appointment or call us on {phone}."
+    },
+    {
+      "greek": "pdr",
+      "slug": "paintless-dent-repair",
+      "name": "PDR: paintless dent repair",
+      "cardTitle": "PDR: dents without repainting",
+      "menuLabel": "PDR",
+      "cardText": "For dents where the paint is not broken: no filler, no paint, and the car keeps its factory finish.",
+      "imageAlt": "Dent repair with PDR: a pulling tool on the panel in front of a PDR lamp",
+      "homeImageAlt": "Dent repair with PDR: a pulling tool on the panel in front of a PDR lamp",
+      "title": "Paintless Dent Repair (PDR) in Thessaloniki | Kapageridis",
+      "description": "PDR in Pylaia, Thessaloniki: dents repaired with no paint and no filler, so your car keeps its factory paint. Book an appointment online for an estimate.",
+      "h1": "PDR: paintless dent repair",
+      "intro": "PDR (Paintless Dent Repair) is a way of repairing dents with no filler and no paint. Using special tools we push the metal from behind and bring it back, little by little, to its original shape. The car's factory paint stays untouched.",
+      "blocks": [
+        { "h2": "When PDR works" },
+        { "list": [
+          "Door dings from other cars in car parks.",
+          "Hail damage.",
+          "Small dents in a door, wing, bonnet or roof, where **the paint is not broken**."
+        ] },
+        { "p": "**When it does not work:** when the paint has cracked or the metal has stretched too much, for example a deep dent on an edge. Then the panel needs body repair and paint. We tell you from the start, and because we do both, the repair carries on in the same workshop." },
+        { "h2": "Why choose PDR" },
+        { "list": [
+          "**The factory paint stays,** which also matters when you sell the car.",
+          "**It is usually faster** than body repair and paint.",
+          "**It is usually cheaper,** because no paint materials are needed."
+        ] },
+        { "h2": "How it is done" },
+        { "steps": [
+          "**Assessment:** we examine the dent under a special light to see its shape and depth.",
+          "**Access:** we reach the back of the panel, removing trim or lights for a while where needed.",
+          "**Repair:** with special tools we push the metal gradually, at many small points, until it is straight.",
+          "**Check:** we inspect the surface under the light again, so that no trace is left."
+        ] }
+      ],
+      "faqs": [
+        { "q": "Is PDR a permanent repair?",
+          "a": "Yes. The metal returns to its original shape and the dent does not come back. Because no filler or new paint is used, there is nothing that could crack or fade later." },
+        { "q": "How do I find out if my dent can be fixed with PDR?",
+          "a": "Book an appointment with the “Book an appointment” form or call us. Bring the car in, we examine the dent under a special light and tell you on the spot whether PDR will work." }
+      ],
+      "cta": "Got a dent? Book an appointment for an estimate or call us on {phone}."
+    }
+  ]
+}

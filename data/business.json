@@ -50,7 +50,7 @@
   },
 
   "appointmentForm": {
-    "_readme": "Appointment request on /rantevou/ (the «Κλείστε ραντεβού» buttons lead there). endpoint = the Web app link of the Google Apps Script in the requests Google Sheet (scripts/appointment-apps-script.gs). The customer picks one of the next working days and a half-hour slot inside hours.opens–closes; the script adds one row (columns A–L as before, M–N the appointment) and Make sends it to Telegram, then the shop calls to confirm. Empty endpoint = no form: the buttons lead to the contact details.",
+    "_readme": "Appointment request on /rantevou/ (the «Κλείστε ραντεβού» buttons lead there). endpoint = the Web app link of the Google Apps Script in the requests Google Sheet (scripts/appointment-apps-script.gs). The customer picks one of the next working days and a half-hour slot inside hours.opens–closes; the script adds one row (columns A–L as before, M–N the appointment) and Make sends it to Telegram, then the shop sends the customer a confirmation text. Empty endpoint = no form: the buttons lead to the contact details.",
     "endpoint": "https://script.google.com/macros/s/AKfycbzCUA6HHZe1VqirIKRKqZRvZjh50xGYjGEJGI-H6o4VTsJ88UXmjMAp59bqcCOBUZlwIQ/exec"
   },
 
@@ -70,6 +70,18 @@
     "ogWidth": 1200,
     "ogHeight": 630,
     "ogAlt": "Λογότυπο Kapageridis Auto Body – Φανοποιείο, βαφείο και PDR στην Πυλαία Θεσσαλονίκης"
+  },
+
+  "en": {
+    "_readme": "How the details read on the English pages (/en/...). Check the address against the English view of the Google profile. Then run: python scripts/build.py",
+    "name": "Kapageridis Auto Body",
+    "address": "Steliou Kazantzidi 30, Pylaia 555 35, Thessaloniki, Greece",
+    "phoneDisplay": "+30 2310 471606",
+    "hours": [
+      { "days": "Monday – Friday", "time": "09:00 – 18:00" },
+      { "days": "Saturday – Sunday", "time": "Closed" }
+    ],
+    "ogAlt": "Kapageridis Auto Body logo – car body repair, paint and PDR in Pylaia, Thessaloniki"
   },
 
   "legal": {

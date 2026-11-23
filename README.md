@@ -35,6 +35,7 @@
 ## Highlights
 
 - **Built entirely with agentic AI.** No code was written by hand: an AI agent (Claude Code) planned, wrote, tested and shipped everything, from my instructions. See [how](#built-with-agentic-ai).
+- **Bilingual, Greek and English.** One build writes both languages from the same data: localized header, footer, forms and privacy policy, `hreflang` links, an EN/ΕΛ switch and a sitemap with language alternates. Customer reviews stay word for word in Greek.
 - **Zero frameworks, zero runtime dependencies.** Semantic HTML, modern CSS and small vanilla JS modules. The build needs nothing but the Python standard library.
 - **Design system first.** Every colour, spacing and radius comes from CSS custom properties (`design-system/tokens.css`), documented in [`DESIGN.md`](design-system/DESIGN.md).
 - **Single source of truth.** Business details live once in `data/business.json` and are written into every page by the build: header, footer, opening hours, map, structured data, privacy policy.
@@ -148,6 +149,7 @@ This project was built end to end through **agentic AI development**. I did not 
 ├── index.html, 404.html          home page and not-found page
 ├── fanopoiia/ vafi-aftokinitou/ pdr/   service pages (generated – do not edit)
 ├── rantevou/                     appointment page with the form
+├── en/                           English version: home, services (generated), appointment, privacy
 ├── politiki-aporritou/           privacy policy (generated from the config)
 ├── data/                         business.json · services.json · reviews.json
 ├── templates/service.html        one template for all service pages
@@ -167,7 +169,7 @@ python scripts/build.py             # rebuild pages, sitemap, robots.txt and run
 python scripts/export_site.py       # deployable folder: _upload/kapageridis-site
 ```
 
-Change business details only in `data/business.json` and texts in `data/services.json`, then run the build.
+Change business details only in `data/business.json` and texts in `data/services.json` (English: `data/services.en.json`), then run the build.
 
 **Deploy:** every push to `main` is built and published by Netlify using [`netlify.toml`](netlify.toml) — the same two commands, plus security headers and cache rules.
 

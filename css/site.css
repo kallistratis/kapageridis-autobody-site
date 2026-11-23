@@ -462,6 +462,8 @@ img { max-width: 100%; display: block; }
 /* Header social icons: white circles with black icons, yellow on hover */
 .fb-header .fb-social a { background: var(--on-photo); color: var(--on-brand); transition: background-color .2s ease; }
 .fb-header .fb-social a:hover { background: var(--brand); }
+/* EN / ΕΛ: same white circle as the icons, with the language in bold */
+.lang-switch { font-size: 15px; font-weight: 800; letter-spacing: .02em; line-height: 1; }
 .fb-social a:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
 .fb-social svg { width: 22px; height: 22px; }
 
@@ -537,7 +539,7 @@ img { max-width: 100%; display: block; }
   .container { padding: 0 var(--space-20); }
   .section { padding: calc(var(--space-40) + var(--space-10)) 0; }
   .fb-header { padding: var(--space-15) var(--space-20); }
-  .fb-header .fb-social { display: none; }
+  .fb-header .fb-social a:not(.lang-switch) { display: none; } /* phones: only EN/ΕΛ stays next to the menu button */
   .fb-hero { min-height: 520px; }
   .fb-hero-body { grid-template-columns: 1fr; gap: var(--space-20); padding: 0 var(--space-20) var(--space-40); }
   .fb-hero-title { font-size: 38px; line-height: 42px; }
